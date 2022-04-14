@@ -1,4 +1,7 @@
+import { Components } from '@mui/material';
 import { createTheme } from '@mui/material/styles';
+
+const components: Components = {};
 
 const lightTheme = createTheme({
   palette: {
@@ -10,6 +13,7 @@ const lightTheme = createTheme({
       main: '#19857b',
     },
   },
+  components,
 });
 
 const darkTheme = createTheme({
@@ -22,6 +26,7 @@ const darkTheme = createTheme({
       main: '#19857b',
     },
   },
+  components,
 });
 
 const themes = { darkTheme, lightTheme };
