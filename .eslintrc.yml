@@ -88,3 +88,8 @@ rules:
   arrow-body-style:
     - error
     - as-needed
+
+  sort-imports:
+    - error
+    - ignoreCase
+    - ignoreDeclarationSort
