@@ -1,23 +1,16 @@
 import { Box, Button, Typography } from '@mui/material';
 import Link from 'next/link';
-import { Url } from 'url';
 
 type FooterButtonProps = {
   icon: React.ReactNode;
   text: string;
   href: string;
-  buttonClick?: () => void;
 };
 
-export default function FooterButton({
-  icon,
-  text,
-  href,
-  buttonClick,
-}: FooterButtonProps) {
+export default function FooterButton({ icon, text, href }: FooterButtonProps) {
   return (
     <Link href={href}>
-      <Button variant="text" onClick={() => buttonClick}>
+      <Button variant="text">
         <Box
           display="flex"
           flexDirection="column"
