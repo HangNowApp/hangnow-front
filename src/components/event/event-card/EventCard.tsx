@@ -30,9 +30,9 @@ export function EventCard({
     >
       <Typography variant="h4">{title}</Typography>
 
-      <Stack direction="row" spacing={1}>
+      <Box sx={{ direction: 'row', gap: 1 }}>
         <Chip label={tag} />
-      </Stack>
+      </Box>
 
       <Box
         sx={{
@@ -47,7 +47,9 @@ export function EventCard({
 
       <Typography variant="subtitle2">About Event</Typography>
 
-      <Typography variant="body2">{description}</Typography>
+      <Typography variant="body2" fontStyle="italic">
+        {description}
+      </Typography>
 
       <Box
         sx={{

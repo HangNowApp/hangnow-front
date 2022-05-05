@@ -5,7 +5,6 @@ import {
   CardContent,
   CardMedia,
   Chip,
-  Stack,
   Typography,
 } from '@mui/material';
 import React from 'react';
@@ -45,9 +44,9 @@ export function MeetEventCard({ imageUrl, title, time, tag }: EventCardProps) {
             </Box>
           </Box>
 
-          <Stack direction="row" spacing={1} mt={2}>
+          <Box sx={{ direction: 'row', gap: 1, mt: 1 }}>
             <Chip label={tag} />
-          </Stack>
+          </Box>
         </CardContent>
       </CardActionArea>
     </Card>

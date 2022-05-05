@@ -31,7 +31,7 @@ export function EventForm() {
         defaultValue="Some more informations"
       />
 
-      <TextField select label="Max participants">
+      <TextField select label="Max participants" onChange={() => {}}>
         {new Array(10)
           .fill(0)
           .map((_, i) => i + 1)
