@@ -1,5 +1,5 @@
 import React from 'react';
 
-export default function Chatbox() {
+export function Chatbox() {
   return <div>Chatbox</div>;
 }
