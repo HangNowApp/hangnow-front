@@ -1,25 +1,29 @@
-import { Box, Button } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useAuthContext } from '~/context/AuthContext';
 import AppLogo from './AppLogo';
 
 export default function AppNavbar() {
   const router = useRouter();
   const isNotLogin = router.route !== '/login';
 
+  const authContext = useAuthContext();
+
   return (
-    <Box
-      display="flex"
-      flexDirection="row"
-      justifyContent="space-between"
-      alignItems="center"
-      marginX={1}
-    >
-      <AppLogo />
+    <Box display="flex" flexDirection="row" alignItems="center" gap={2}>
+      <Link href="/">
+        <Box component="a" sx={{ mr: 'auto' }}>
+          <AppLogo sx={{ cursor: 'pointer' }} />
+        </Box>
+      </Link>
+      {authContext.isLoggedIn && (
+        <Typography>@{authContext.user?.userName}</Typography>
+      )}
       {isNotLogin && (
-        <Link href="/login">
-          <Button variant="outlined" size="small" href="">
-            Login
+        <Link href={authContext.isLoggedIn ? '/logout' : '/login'}>
+          <Button variant="contained" size="small" href="">
+            {authContext.isLoggedIn ? 'Logout' : 'Login'}
           </Button>
         </Link>
       )}

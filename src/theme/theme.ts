@@ -87,6 +87,10 @@ const darkTheme = createTheme({
     secondary: {
       main: '#19857b',
     },
+    background: {
+      default: '#1E2025',
+      paper: '#26241E',
+    },
   },
   components,
 });
