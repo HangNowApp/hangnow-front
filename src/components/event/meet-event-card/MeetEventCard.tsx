@@ -15,15 +15,12 @@ type EventCardProps = {
   imageUrl: string;
   title: string;
   time: string;
+  tag: string[];
 };
 
-export default function MeetEventCard({
-  imageUrl,
-  title,
-  time,
-}: EventCardProps) {
+export function MeetEventCard({ imageUrl, title, time, tag }: EventCardProps) {
   return (
-    <Card sx={{ maxWidth: 340 }}>
+    <Card>
       <CardActionArea>
         <CardMedia component="img" height="140" image={imageUrl} alt="img" />
         <CardContent>
@@ -49,7 +46,7 @@ export default function MeetEventCard({
           </Box>
 
           <Stack direction="row" spacing={1} mt={2}>
-            <Chip label="Finances" />
+            <Chip label={tag} />
           </Stack>
         </CardContent>
       </CardActionArea>
