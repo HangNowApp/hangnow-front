@@ -1,4 +1,5 @@
 import { Box, Container } from '@mui/material';
+import { useRouter } from 'next/router';
 import React, { PropsWithChildren } from 'react';
 
 export default function Layout({ children }: PropsWithChildren<{}>) {
