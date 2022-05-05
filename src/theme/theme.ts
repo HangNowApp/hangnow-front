@@ -1,7 +1,53 @@
 import { Components } from '@mui/material';
 import { createTheme } from '@mui/material/styles';
 
-const components: Components = {};
+const components: Components = {
+  MuiButton: {
+    styleOverrides: {
+      root: {
+        backgroundColor: '#EF4444',
+        borderRadius: '8px',
+        ':hover': {
+          backgroundColor: '#FF3333',
+        },
+      },
+    },
+  },
+  MuiSelect: {
+    styleOverrides: {
+      select: {
+        '& legend': {
+          color: '#fff',
+        },
+      },
+    },
+  },
+  MuiAvatarGroup: {
+    styleOverrides: {
+      avatar: {
+        width: '20px',
+        height: '20px',
+        fontSize: '10px',
+      },
+    },
+  },
+  MuiChip: {
+    styleOverrides: {
+      root: {
+        backgroundColor: '#FFC8C8',
+        fontSize: '10px',
+        color: '#FF3333',
+      },
+    },
+  },
+  MuiCard: {
+    styleOverrides: {
+      root: {
+        borderRadius: '32px',
+      },
+    },
+  },
+};
 
 const lightTheme = createTheme({
   palette: {
