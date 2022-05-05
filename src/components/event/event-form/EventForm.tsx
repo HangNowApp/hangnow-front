@@ -6,18 +6,17 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import React from 'react';
 
-export default function EventForm() {
-  const tag = ['Finances', 'Sport', 'Culture', 'Cinema', 'Amitié'];
+// tags temp
+const tags = ['Finances', 'Sport', 'Culture', 'Cinema', 'Amitié'];
 
+export function EventForm() {
   return (
     <Box
       sx={{
         display: 'flex',
         flexDirection: 'column',
         gap: 2,
-        maxWidth: 320,
         margin: 'auto',
       }}
     >
@@ -32,26 +31,16 @@ export default function EventForm() {
         defaultValue="Some more informations"
       />
 
-      <Select label={'Max participants'} sx={{ mb: 1, minWidth: 120 }}>
-        <MenuItem value={1}>1</MenuItem>
-        <MenuItem value={2}>2</MenuItem>
-        <MenuItem value={3}>3</MenuItem>
-        <MenuItem value={4}>4</MenuItem>
-        <MenuItem value={5}>5</MenuItem>
-        <MenuItem value={6}>6</MenuItem>
-        <MenuItem value={7}>7</MenuItem>
-        <MenuItem value={8}>8</MenuItem>
-        <MenuItem value={9}>9</MenuItem>
-        <MenuItem value={10}>10</MenuItem>
-      </Select>
+      <TextField select label="Max participants">
+        {new Array(10)
+          .fill(0)
+          .map((_, i) => i + 1)
+          .map((e) => (
+            <MenuItem>{e}</MenuItem>
+          ))}
+      </TextField>
 
-      <Select label="Tags" multiple value={[]}>
-        {tag.map((tag) => (
-          <MenuItem key={tag} value={tag}>
-            {tag}
-          </MenuItem>
-        ))}
-      </Select>
+      <Select label={'tag'} sx={{ mb: 1, minWidth: 120 }}></Select>
 
       <Button variant="contained">Create</Button>
     </Box>
