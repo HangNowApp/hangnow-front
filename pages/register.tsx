@@ -38,7 +38,7 @@ export default function Register() {
   };
 
   return (
-    <Box sx={{ m: 'auto', maxWidth: 320, my: 4 }}>
+    <Box sx={{ m: 'auto' }}>
       <h1>Login</h1>
       <form onSubmit={onSubmit}>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>

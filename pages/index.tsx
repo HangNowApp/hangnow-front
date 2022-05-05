@@ -1,11 +1,13 @@
 import { Box, Typography } from '@mui/material';
 import type { NextPage } from 'next';
+import { EventCard } from '~/components/event-card';
 import { useAuthContext } from '~/context/AuthContext';
 
 const Home: NextPage = () => (
   <Box>
     <Typography variant="h2">HangNow</Typography>
     <TestUser />
+    <EventCard />
   </Box>
 );
 

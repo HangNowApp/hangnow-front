@@ -1,5 +1,5 @@
 import React from 'react';
 
-export default function EventCard() {
+export function EventCard() {
   return <div>EventCard</div>;
 }

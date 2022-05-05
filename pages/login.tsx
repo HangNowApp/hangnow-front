@@ -21,7 +21,7 @@ export default function login() {
     <Box>
       <h1>Login</h1>
       <form onSubmit={onSubmit}>
-        <Box sx={{ display: 'flex', flexDirection: 'column', maxWidth: 320 }}>
+        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
           <TextField id="email" type="text" placeholder="Email" />
           <TextField id="password" type="password" placeholder="Password" />
           <Button type="submit">Login</Button>
