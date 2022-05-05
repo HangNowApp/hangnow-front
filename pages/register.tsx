@@ -1,11 +1,10 @@
-import { Box, Button, TextField } from '@mui/material';
+import { Box, Button, TextField, Typography } from '@mui/material';
 import React, { useState } from 'react';
 import { clientJson } from '~/client/client';
 import { JWT } from '~/client/jwr';
 import { AuthResponse } from '~/client/types/Auth';
 
 // Test component, need to be styled
-
 export default function Register() {
   const [error, setError] = useState<string>('');
 
@@ -28,10 +27,13 @@ export default function Register() {
           setError(res.message);
         }
       })
-      .catch((res: AuthResponse) => {
-        if (!res.result) {
-          setError(res.message);
-        }
+      .catch((r) => {
+        r.json().then((res: AuthResponse) => {
+          if (!res.result) {
+            console.log('set error', res);
+            setError(res.message);
+          }
+        });
       });
   };
 
@@ -43,6 +45,7 @@ export default function Register() {
           <TextField id="username" type="text" placeholder="Username" />
           <TextField id="email" type="email" placeholder="Email" />
           <TextField id="password" type="password" placeholder="Password" />
+          {error ? <Typography color="error">{error}</Typography> : null}
 
           <Button type="submit">Login</Button>
         </Box>
