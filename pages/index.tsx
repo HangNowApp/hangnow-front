@@ -1,16 +1,35 @@
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import type { NextPage } from 'next';
-import { MeetEventCard } from '~/components/event/meet-event-card';
+import { EventCard } from '~/components/event-card';
+import { useAuthContext } from '~/context/AuthContext';
 
 const Home: NextPage = () => (
-  <div>
-    <MeetEventCard
-      title="Title of event"
-      time="3m ago"
-      imageUrl="https://www.wbcsd.org/var/site/storage/images/media/images/finance_img/25992-1-eng-GB/finance_img_i1140.jpg"
-      tag={['Finances', 'Chill']}
-    ></MeetEventCard>
-  </div>
+  <Box>
+    <Typography variant="h2">HangNow</Typography>
+    <TestUser />
+    <EventCard />
+  </Box>
 );
+
+const TestUser = () => {
+  const authContext = useAuthContext();
+
+  if (authContext.isLoggedIn) {
+    return (
+      <Typography variant="h4">
+        You're logged in: USERNAME:{' '}
+        <Box component="span" color="primary.main">
+          {authContext.user?.userName}
+        </Box>
+      </Typography>
+    );
+  }
+
+  return (
+    <Box>
+      <Typography variant="h4">No Logged IN</Typography>
+    </Box>
+  );
+};
 
 export default Home;
