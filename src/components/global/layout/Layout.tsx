@@ -16,7 +16,6 @@ export default function Layout({ children }: PropsWithChildren<{}>) {
 
       <Box sx={{ flex: 1 }}>{children}</Box>
 
-      {/* TODO: replace by footer */}
       <Box
         display="flex"
         justifyContent="center"
