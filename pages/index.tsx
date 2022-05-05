@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material';
+import { Box, Paper, Typography } from '@mui/material';
 import type { NextPage } from 'next';
 import { EventCard } from '~/components/event-card';
 import { useAuthContext } from '~/context/AuthContext';
@@ -16,12 +16,14 @@ const TestUser = () => {
 
   if (authContext.isLoggedIn) {
     return (
-      <Typography variant="h4">
-        You're logged in: USERNAME:{' '}
-        <Box component="span" color="primary.main">
-          {authContext.user?.userName}
-        </Box>
-      </Typography>
+      <Paper>
+        <Typography variant="h4">
+          You're logged in: USERNAME:{' '}
+          <Box component="span" color="primary.main">
+            {authContext.user?.userName}
+          </Box>
+        </Typography>
+      </Paper>
     );
   }
 
