@@ -6,9 +6,6 @@ type AvatarsProps = {
   avatarUrl?: string;
 };
 
-//   avatarUrl?: string[];
-// https://github.com/HangNow/hang-now-landing-page/blob/master/components/Peoples.js
-
 export default function Avatars({ avatarUrl }: AvatarsProps) {
   return (
     <AvatarGroup max={4}>
