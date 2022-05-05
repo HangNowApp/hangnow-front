@@ -1,15 +1,31 @@
-import { Components } from '@mui/material';
+import { Components, alpha } from '@mui/material';
 import { createTheme } from '@mui/material/styles';
+
+const PRIMARY_COLOR = '#ef4444';
 
 const components: Components = {
   MuiButton: {
+    defaultProps: {
+      disableRipple: true,
+    },
     styleOverrides: {
       root: {
-        backgroundColor: '#EF4444',
-        borderRadius: '8px',
-        ':hover': {
-          backgroundColor: '#FF3333',
+        borderRadius: 1000,
+        '&:focus': {
+          boxShadow: `0px 0px 0px 4px ${alpha(PRIMARY_COLOR, 0.8)}`,
         },
+      },
+      sizeSmall: {
+        padding: '8px 16px 8px 16px',
+        fontSize: '14px',
+      },
+      sizeMedium: {
+        padding: '12px 18px 12px 18px',
+        fontSize: '16px',
+      },
+      sizeLarge: {
+        padding: '16px 28px 16px 28px',
+        fontSize: '18px',
       },
     },
   },
@@ -36,7 +52,7 @@ const components: Components = {
       root: {
         backgroundColor: '#FFC8C8',
         fontSize: '10px',
-        color: '#FF3333',
+        color: PRIMARY_COLOR,
       },
     },
   },
@@ -53,7 +69,7 @@ const lightTheme = createTheme({
   palette: {
     mode: 'light',
     primary: {
-      main: '#556cd6',
+      main: PRIMARY_COLOR,
     },
     secondary: {
       main: '#19857b',
@@ -66,7 +82,7 @@ const darkTheme = createTheme({
   palette: {
     mode: 'dark',
     primary: {
-      main: '#556cd6',
+      main: PRIMARY_COLOR,
     },
     secondary: {
       main: '#19857b',
