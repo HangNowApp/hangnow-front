@@ -8,6 +8,5 @@ export default function AppLogo() {
           Now!
         </Box>
       </Typography>
-    </Box>
   );
 }
