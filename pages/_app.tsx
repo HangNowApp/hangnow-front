@@ -8,6 +8,7 @@ import '../styles/globals.css';
 import { NextAppProps } from '~/types/NextApp';
 import Head from 'next/head';
 import { AuthContextProvider } from '~/context/AuthContext';
+import Layout from '~/components/layout/Layout';
 
 const clientSideEmotionCache = createEmotionCache();
 
@@ -25,7 +26,9 @@ const MyApp = (props: NextAppProps) => {
         <ThemeProvider theme={themes.darkTheme}>
           <CssBaseline />
           <AuthContextProvider>
-            <Component {...pageProps} />
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
           </AuthContextProvider>
         </ThemeProvider>
       </CacheProvider>
