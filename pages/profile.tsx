@@ -1,3 +1,3 @@
-export default function EventCreation() {
+export default function profile() {
   return '';
 }
