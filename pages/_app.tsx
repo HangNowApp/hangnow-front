@@ -8,7 +8,7 @@ import '../styles/globals.css';
 import { NextAppProps } from '~/types/NextApp';
 import Head from 'next/head';
 import { AuthContextProvider } from '~/context/AuthContext';
-import Layout from '~/components/layout/Layout';
+import Layout from '~/components/global/layout/Layout';
 
 const clientSideEmotionCache = createEmotionCache();
 
