@@ -1,16 +1,29 @@
 import {
   Box,
   Button,
+  ListItemText,
   MenuItem,
-  Select,
   TextField,
   Typography,
 } from '@mui/material';
+import React, { useState } from 'react';
 
-// tags temp
-const tags = ['Finances', 'Sport', 'Culture', 'Cinema', 'Amitié'];
+const tags = [
+  { id: '1', value: 'Finances' },
+  { id: '2', value: 'Sport' },
+  { id: '3', value: 'Culture' },
+];
 
 export function EventForm() {
+  const [tag, setTag] = React.useState([]);
+
+  const handleChangeTags = (event: any) => {
+    const {
+      target: { value },
+    } = event;
+    setTag(typeof value === 'string' ? value.split(',') : value);
+  };
+
   return (
     <Box
       sx={{
@@ -40,7 +53,24 @@ export function EventForm() {
           ))}
       </TextField>
 
-      <Select label={'tag'} sx={{ mb: 1, minWidth: 120 }}></Select>
+      <TextField
+        label="Tags"
+        select
+        value={tag}
+        onChange={handleChangeTags}
+        SelectProps={{
+          multiple: true,
+          renderValue: (selected) => (
+            <>{Array.isArray(selected) ? selected.join(', ') : selected}</>
+          ),
+        }}
+      >
+        {tags.map((tag) => (
+          <MenuItem key={tag.value} value={tag.value}>
+            <ListItemText primary={tag.value} />
+          </MenuItem>
+        ))}
+      </TextField>
 
       <Button variant="contained">Create</Button>
     </Box>
