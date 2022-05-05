@@ -8,9 +8,14 @@ const getToken = () => {
   return localStorage.getItem(LOCAL_STORAGE_TOKEN_KEY);
 };
 
+const deleteToken = () => {
+  return localStorage.removeItem(LOCAL_STORAGE_TOKEN_KEY);
+};
+
 const JWT = {
   setToken,
   getToken,
+  deleteToken,
 };
 
 export { JWT };
