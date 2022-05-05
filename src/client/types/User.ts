@@ -1,3 +1,8 @@
 export type User = {
-  username: string;
+  id: string;
+  userName: string;
+  normalizedUsername: string;
+  email: string;
+  phoneNumber: string;
+  isPremium: boolean;
 };
