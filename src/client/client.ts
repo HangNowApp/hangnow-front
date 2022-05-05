@@ -1,5 +1,7 @@
+import { JWT } from './jwr';
+
 // get next variable named: "NEXT_API_URL"
-const BASE_URL = process.env.NEXT_API_URL || 'http://localhost:3000/';
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000/';
 
 type config = {
   data?: unknown;
@@ -39,7 +41,13 @@ type config = {
 
 export async function client(
   endpoint: string,
-  { data, method, token, headers: customHeaders, customConfig }: config = {}
+  {
+    data,
+    method,
+    token = JWT.getToken(),
+    headers: customHeaders,
+    customConfig,
+  }: config = {}
 ): Promise<Response> {
   const config: RequestInit = {
     method: method || (data ? 'POST' : 'GET'),
@@ -54,7 +62,7 @@ export async function client(
   };
 
   return window
-    .fetch(`${BASE_URL}api/${endpoint}`, config)
+    .fetch(`${BASE_URL}${endpoint}`, config)
     .then(async (response) => {
       // statusCode "401" is for unauthenticated request
       if (response.status === 401) {
