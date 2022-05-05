@@ -1,5 +1,4 @@
 import { Avatar, Box, Button, Chip, Stack, Typography } from '@mui/material';
-import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import React from 'react';
 import Avatars from '~/components/avatars/Avatars';
 
@@ -9,14 +8,16 @@ type EventCardProps = {
   username: string;
   avatarUrl: string;
   time: string;
+  tag: string;
 };
 
-export default function EventCard({
+export function EventCard({
   title,
   description,
   username,
   avatarUrl,
   time,
+  tag,
 }: EventCardProps) {
   return (
     <Box
@@ -24,17 +25,13 @@ export default function EventCard({
         display: 'flex',
         flexDirection: 'column',
         gap: 2,
-        maxWidth: 320,
         margin: 'auto',
       }}
     >
       <Typography variant="h4">{title}</Typography>
 
       <Stack direction="row" spacing={1}>
-        <Chip
-          icon={<AttachMoneyIcon fontSize="small" style={{ color: 'red' }} />}
-          label="Finances"
-        />
+        <Chip label={tag} />
       </Stack>
 
       <Box
@@ -45,9 +42,7 @@ export default function EventCard({
         }}
       >
         <Typography variant="caption">{time}</Typography>
-        <Box>
-          <Avatars></Avatars>
-        </Box>
+        <Avatars></Avatars>
       </Box>
 
       <Typography variant="subtitle2">About Event</Typography>
@@ -59,7 +54,6 @@ export default function EventCard({
           display: 'flex',
           flexDirection: 'row',
           gap: 2,
-          maxWidth: 320,
           margin: 'left',
         }}
       >
