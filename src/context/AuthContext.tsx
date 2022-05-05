@@ -8,11 +8,15 @@ type AuthContextProps = {
   user?: User;
   isLoading: boolean;
   isLoggedIn: boolean;
+  logout: () => void;
+  login: (token: string) => void;
 };
 
 const AuthContext = React.createContext<AuthContextProps>({
   isLoading: true,
   isLoggedIn: false,
+  logout: () => {},
+  login: () => {},
 });
 
 type AuthContextProviderProps = { children: React.ReactElement };
@@ -23,9 +27,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
 
   const isLoggedIn = Boolean(user);
 
-  const values = { user, isLoading, isLoggedIn };
-
-  useEffect(() => {
+  const updateUser = () => {
     const token = JWT.getToken();
 
     if (token) {
@@ -42,7 +44,23 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     } else {
       setIsLoading(false);
     }
+  };
+
+  useEffect(() => {
+    updateUser();
   }, []);
+
+  const logout = () => {
+    JWT.deleteToken();
+    setUser(undefined);
+  };
+
+  const login = (token: string) => {
+    JWT.setToken(token);
+    updateUser();
+  };
+
+  const values = { user, isLoading, isLoggedIn, logout, login };
 
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;
 }

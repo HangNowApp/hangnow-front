@@ -3,10 +3,12 @@ import React, { useState } from 'react';
 import { clientJson } from '~/client/client';
 import { JWT } from '~/client/jwr';
 import { AuthResponse } from '~/client/types/Auth';
+import { useAuthContext } from '~/context/AuthContext';
 
 // Test component, need to be styled
 export default function Register() {
   const [error, setError] = useState<string>('');
+  const authContext = useAuthContext();
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     setError('');
@@ -22,7 +24,7 @@ export default function Register() {
     })
       .then((res) => {
         if (res.result) {
-          JWT.setToken(res.token);
+          authContext.login(res.token);
         } else {
           setError(res.message);
         }

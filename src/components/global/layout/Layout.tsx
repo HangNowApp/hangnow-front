@@ -7,7 +7,7 @@ export default function Layout({ children }: PropsWithChildren<{}>) {
   return (
     <Container
       maxWidth="sm"
-      sx={{ height: 1, display: 'flex', flexDirection: 'column', gap: 2 }}
+      sx={{ height: 1, display: 'flex', flexDirection: 'column', gap: 2, p: 1 }}
     >
       <Box my={1}>
         <AppNavbar />

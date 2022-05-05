@@ -1,37 +1,10 @@
-import { Box, Paper, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import type { NextPage } from 'next';
-import { EventCard } from '~/components/event-card';
-import { useAuthContext } from '~/context/AuthContext';
 
 const Home: NextPage = () => (
   <Box>
-    <Typography variant="h2">HangNow</Typography>
-    <TestUser />
-    <EventCard />
+    <Typography variant="h2">TODO: home page</Typography>
   </Box>
 );
-
-const TestUser = () => {
-  const authContext = useAuthContext();
-
-  if (authContext.isLoggedIn) {
-    return (
-      <Paper>
-        <Typography variant="h4">
-          You're logged in: USERNAME:{' '}
-          <Box component="span" color="primary.main">
-            {authContext.user?.userName}
-          </Box>
-        </Typography>
-      </Paper>
-    );
-  }
-
-  return (
-    <Box>
-      <Typography variant="h4">No Logged IN</Typography>
-    </Box>
-  );
-};
 
 export default Home;
