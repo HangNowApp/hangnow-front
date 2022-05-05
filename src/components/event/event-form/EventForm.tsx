@@ -3,6 +3,7 @@ import {
   Button,
   ListItemText,
   MenuItem,
+  SelectChangeEvent,
   TextField,
   Typography,
 } from '@mui/material';
@@ -15,13 +16,16 @@ const tags = [
 ];
 
 export function EventForm() {
+  const [people, setPeople] = React.useState<string | null>(null);
   const [tag, setTag] = React.useState([]);
 
-  const handleChangeTags = (event: any) => {
-    const {
-      target: { value },
-    } = event;
+  const handleChangeTags = (event: SelectChangeEvent<unknown>) => {
+    const value = event.target.value;
     setTag(typeof value === 'string' ? value.split(',') : value);
+  };
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPeople(event.target.value);
   };
 
   return (
@@ -42,24 +46,32 @@ export function EventForm() {
         multiline
         rows={4}
         defaultValue="Some more informations"
+        onFocus={(e) => e.target.select()}
       />
 
-      <TextField select label="Max participants" onChange={() => {}}>
+      <TextField
+        value={people}
+        onChange={handleChange}
+        select
+        label="Max participants"
+      >
         {new Array(10)
           .fill(0)
           .map((_, i) => i + 1)
           .map((e) => (
-            <MenuItem>{e}</MenuItem>
+            <MenuItem value={e} key={e}>
+              {e}
+            </MenuItem>
           ))}
       </TextField>
 
       <TextField
-        label="Tags"
         select
+        label="Tags"
         value={tag}
-        onChange={handleChangeTags}
         SelectProps={{
           multiple: true,
+          onChange: handleChangeTags,
           renderValue: (selected) => (
             <>{Array.isArray(selected) ? selected.join(', ') : selected}</>
           ),
