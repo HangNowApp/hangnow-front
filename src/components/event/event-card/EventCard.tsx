@@ -1,7 +1,7 @@
 import { Avatar, Box, Button, Link, Typography } from '@mui/material';
 import React from 'react';
 import Avatars from '~/components/avatars/Avatars';
-import TagChip from '~/components/TagFilter/TagChip';
+import TagFilter from '~/components/TagFilter/TagFilter';
 
 type EventCardProps = {
   title: string;
@@ -32,7 +32,7 @@ export function EventCard({
       <Typography variant="h4">{title}</Typography>
 
       <Box sx={{ direction: 'row', gap: 1 }}>
-        <TagChip tagName={tag} selected={false} />
+        <TagFilter tagList={['Finances', 'Test', 'Oui']} />
       </Box>
 
       <Box
