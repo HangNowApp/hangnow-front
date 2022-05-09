@@ -51,7 +51,7 @@ const components: Components = {
     styleOverrides: {
       root: {
         fontSize: '10px',
-        color: PRIMARY_COLOR,
+        color: '#fff',
       },
     },
   },
