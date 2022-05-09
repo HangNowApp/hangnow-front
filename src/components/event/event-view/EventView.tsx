@@ -3,7 +3,7 @@ import React from 'react';
 import Avatars from '~/components/avatars/Avatars';
 import TagFilter from '~/components/TagFilter/TagFilter';
 
-type EventCardProps = {
+type EventViewProps = {
   title: string;
   description: string;
   username: string;
@@ -12,14 +12,14 @@ type EventCardProps = {
   tag: string;
 };
 
-export function EventCard({
+export function EventView({
   title,
   description,
   username,
   avatarUrl,
   time,
   tag,
-}: EventCardProps) {
+}: EventViewProps) {
   return (
     <Box
       sx={{
