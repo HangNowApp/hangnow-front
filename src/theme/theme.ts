@@ -58,7 +58,7 @@ const components: Components = {
   MuiCard: {
     styleOverrides: {
       root: {
-        borderRadius: '32px',
+        borderRadius: 4,
       },
     },
   },

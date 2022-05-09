@@ -31,6 +31,7 @@ export function EventForm() {
   return (
     <Box
       sx={{
+        component: 'form',
         display: 'flex',
         flexDirection: 'column',
         gap: 2,
@@ -84,7 +85,9 @@ export function EventForm() {
         ))}
       </TextField>
 
-      <Button variant="contained">Create</Button>
+      <Button type="submit" variant="contained">
+        Create
+      </Button>
     </Box>
   );
 }

@@ -10,13 +10,13 @@ import React from 'react';
 import Avatars from '~/components/avatars/Avatars';
 import TagFilter from '~/components/TagFilter/TagFilter';
 
-type EventCardProps = {
+type MeetEventCardProps = {
   imageUrl: string;
   title: string;
   time: string;
 };
 
-export function MeetEventCard({ imageUrl, title, time }: EventCardProps) {
+export function MeetEventCard({ imageUrl, title, time }: MeetEventCardProps) {
   return (
     <Card>
       <CardActionArea>
@@ -43,7 +43,7 @@ export function MeetEventCard({ imageUrl, title, time }: EventCardProps) {
             </Box>
           </Box>
 
-          <Box sx={{ direction: 'row', gap: 1, mt: 1 }}>
+          <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1, mt: 1 }}>
             <TagFilter tagList={['Finances', 'Test', 'Oui']} />
           </Box>
         </CardContent>
