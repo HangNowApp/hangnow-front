@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Chip, Stack, Typography } from '@mui/material';
+import { Avatar, Box, Button, Chip, Link, Typography } from '@mui/material';
 import React from 'react';
 import Avatars from '~/components/avatars/Avatars';
 
@@ -42,7 +42,7 @@ export function EventCard({
         }}
       >
         <Typography variant="caption">{time}</Typography>
-        <Avatars></Avatars>
+        <Avatars />
       </Box>
 
       <Typography variant="subtitle2">About Event</Typography>
@@ -62,7 +62,7 @@ export function EventCard({
         <Avatar alt="" src={avatarUrl} />
         <Box>
           <Typography variant="body2">{username}</Typography>
-          <a href="/profile">view profile</a>
+          <Link href="/profile">view profile</Link>
         </Box>
       </Box>
 

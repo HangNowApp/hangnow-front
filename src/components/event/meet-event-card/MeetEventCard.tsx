@@ -40,7 +40,7 @@ export function MeetEventCard({ imageUrl, title, time, tag }: EventCardProps) {
               {time}
             </Typography>
             <Box>
-              <Avatars></Avatars>
+              <Avatars />
             </Box>
           </Box>
 
