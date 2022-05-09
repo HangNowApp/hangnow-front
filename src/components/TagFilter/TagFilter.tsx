@@ -8,13 +8,7 @@ type TagFilterProps = {
 
 export default function TagFilter({ tagList }: TagFilterProps) {
   return (
-    <Box
-      display="flex"
-      flexDirection="column"
-      alignItems="center"
-      width="100%"
-      overflow="hidden"
-    >
+    <Box display="flex" flexDirection="column" alignItems="center" width="100%">
       <Box
         display="flex"
         flexDirection="row"
@@ -33,10 +27,15 @@ export default function TagFilter({ tagList }: TagFilterProps) {
         width="100%"
         gap={2}
         overflow="scroll"
+        sx={{
+          '&::-webkit-scrollbar': {
+            width: 0,
+          },
+        }}
       >
         {tagList.length > 0 &&
-          tagList.map((tag) => {
-            return <TagChip tagName={tag} selected={false} />;
+          tagList.map((tag, i) => {
+            return <TagChip tagName={tag} selected={i == 1 ? true : false} />;
           })}
       </Box>
     </Box>

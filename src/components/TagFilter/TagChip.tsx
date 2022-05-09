@@ -6,5 +6,11 @@ type TagChipProps = {
 };
 
 export default function TagChip({ selected, tagName }: TagChipProps) {
-  return <Chip label={tagName} color={selected ? 'primary' : 'secondary'} />;
+  return (
+    <Chip
+      label={tagName}
+      color="primary"
+      variant={selected ? 'filled' : 'outlined'}
+    />
+  );
 }
