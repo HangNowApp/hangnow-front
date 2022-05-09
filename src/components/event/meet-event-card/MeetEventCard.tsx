@@ -4,17 +4,17 @@ import {
   CardActionArea,
   CardContent,
   CardMedia,
-  Chip,
   Typography,
 } from '@mui/material';
 import React from 'react';
 import Avatars from '~/components/avatars/Avatars';
+import TagChip from '~/components/TagFilter/TagChip';
 
 type EventCardProps = {
   imageUrl: string;
   title: string;
   time: string;
-  tag: string[];
+  tag: string;
 };
 
 export function MeetEventCard({ imageUrl, title, time, tag }: EventCardProps) {
@@ -45,7 +45,7 @@ export function MeetEventCard({ imageUrl, title, time, tag }: EventCardProps) {
           </Box>
 
           <Box sx={{ direction: 'row', gap: 1, mt: 1 }}>
-            <Chip label={tag} />
+            <TagChip tagName={tag} selected={false} />
           </Box>
         </CardContent>
       </CardActionArea>

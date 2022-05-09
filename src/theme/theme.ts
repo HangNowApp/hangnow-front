@@ -50,7 +50,6 @@ const components: Components = {
   MuiChip: {
     styleOverrides: {
       root: {
-        backgroundColor: '#FFC8C8',
         fontSize: '10px',
         color: PRIMARY_COLOR,
       },
