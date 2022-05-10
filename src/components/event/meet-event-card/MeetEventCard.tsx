@@ -44,7 +44,13 @@ export function MeetEventCard({ imageUrl, title, time }: MeetEventCardProps) {
           </Box>
 
           <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1, mt: 1 }}>
-            <TagFilter tagList={['Finances', 'Test', 'Oui']} />
+            <TagFilter
+              tags={[
+                { id: 0, name: 'Financens' },
+                { id: 1, name: 'Oui' },
+                { id: 2, name: 'Non' },
+              ]}
+            />
           </Box>
         </CardContent>
       </CardActionArea>

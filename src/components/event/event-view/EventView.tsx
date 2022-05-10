@@ -32,7 +32,13 @@ export function EventView({
       <Typography variant="h4">{title}</Typography>
 
       <Box sx={{ direction: 'row', gap: 1 }}>
-        <TagFilter tagList={['Finances', 'Test', 'Oui']} />
+        <TagFilter
+          tags={[
+            { id: 0, name: 'Financens' },
+            { id: 1, name: 'Oui' },
+            { id: 2, name: 'Non' },
+          ]}
+        />
       </Box>
 
       <Box
