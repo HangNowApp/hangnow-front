@@ -2,13 +2,13 @@ import { Chip } from '@mui/material';
 
 type TagChipProps = {
   selected: boolean;
-  tagName: string;
+  name: string;
 };
 
-export default function TagChip({ selected, tagName }: TagChipProps) {
+export default function TagChip({ selected, name }: TagChipProps) {
   return (
     <Chip
-      label={tagName}
+      label={name}
       color="primary"
       variant={selected ? 'filled' : 'outlined'}
     />

@@ -1,12 +1,14 @@
 import { Box, Chip, Typography } from '@mui/material';
 import Link from 'next/link';
+import { tag } from '~/types/typeTag';
 import TagChip from './TagChip';
 
 type TagFilterProps = {
-  tagList: string[];
+  tags: tag[];
+  selectedTag?: number;
 };
 
-export default function TagFilter({ tagList }: TagFilterProps) {
+export default function TagFilter({ tags, selectedTag }: TagFilterProps) {
   return (
     <Box display="flex" flexDirection="column" alignItems="center" width="100%">
       <Box
@@ -16,7 +18,7 @@ export default function TagFilter({ tagList }: TagFilterProps) {
         alignItems="center"
         width="100%"
       >
-        <Typography variant="h6">See by tags</Typography>
+        <Typography variant="subtitle1">See by tags</Typography>
         <Link href="">See all</Link>
       </Box>
       <Box
@@ -33,9 +35,11 @@ export default function TagFilter({ tagList }: TagFilterProps) {
           },
         }}
       >
-        {tagList.length > 0 &&
-          tagList.map((tag, i) => {
-            return <TagChip tagName={tag} selected={i == 0 ? true : false} />;
+        {tags.length > 0 &&
+          tags.map((tag) => {
+            return (
+              <TagChip name={tag.name} selected={tag.id === selectedTag} />
+            );
           })}
       </Box>
     </Box>

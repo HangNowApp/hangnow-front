@@ -6,16 +6,17 @@ const Home: NextPage = () => (
   <Box>
     <Typography variant="h2">TODO: home page</Typography>
     <TagFilter
-      tagList={[
-        'Buisiness',
-        'lol',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
+      tags={[
+        { id: 0, name: 'Buisiness' },
+        { id: 1, name: 'lol' },
+        { id: 2, name: 'test' },
+        { id: 3, name: 'test' },
+        { id: 4, name: 'test' },
+        { id: 5, name: 'test' },
+        { id: 6, name: 'test' },
+        { id: 7, name: 'test' },
       ]}
+      selectedTag={1}
     />
   </Box>
 );
