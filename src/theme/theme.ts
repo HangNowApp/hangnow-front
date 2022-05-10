@@ -29,6 +29,39 @@ const components: Components = {
       },
     },
   },
+  MuiSelect: {
+    styleOverrides: {
+      select: {
+        '& legend': {
+          color: '#fff',
+        },
+      },
+    },
+  },
+  MuiAvatarGroup: {
+    styleOverrides: {
+      avatar: {
+        width: '20px',
+        height: '20px',
+        fontSize: '10px',
+      },
+    },
+  },
+  MuiChip: {
+    styleOverrides: {
+      root: {
+        fontSize: '10px',
+        color: '#fff',
+      },
+    },
+  },
+  MuiCard: {
+    styleOverrides: {
+      root: {
+        borderRadius: 4,
+      },
+    },
+  },
 };
 
 const lightTheme = createTheme({
