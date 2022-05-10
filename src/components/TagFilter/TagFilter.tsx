@@ -35,7 +35,7 @@ export default function TagFilter({ tagList }: TagFilterProps) {
       >
         {tagList.length > 0 &&
           tagList.map((tag, i) => {
-            return <TagChip tagName={tag} selected={i == 1 ? true : false} />;
+            return <TagChip tagName={tag} selected={i == 0 ? true : false} />;
           })}
       </Box>
     </Box>
