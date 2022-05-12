@@ -6,12 +6,17 @@ import {
   TextFieldProps,
   Typography,
 } from '@mui/material';
-import React from 'react';
+import React, { useState } from 'react';
+import { clientJson } from '~/client/client';
+import { AuthResponse } from '~/client/types/Auth';
+import { useAuthContext } from '~/context/AuthContext';
 import { PasswordDialog } from './PasswordDialog';
 
 export function UserProfile() {
-  const [user, setUser] = React.useState();
-  const isEditing = React.useState(false);
+  const authContext = useAuthContext();
+  const user = authContext.user;
+  const [isEditing, setEditing] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const textFieldCommonProps: TextFieldProps = {
     disabled: !isEditing,
@@ -20,18 +25,49 @@ export function UserProfile() {
     size: 'small',
   };
 
-  const handleChange = () => {
-    isEditing;
-  };
-
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  const updatePassword = () => {
+    setIsLoading(true);
+    clientJson<AuthResponse>('auth/change_password')
+      .then((res) => {
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        console.error('err', err);
+        setIsLoading(false);
+      });
+  };
+
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = (event) => {
+    event?.preventDefault();
+    if (!isEditing) {
+      setEditing(true);
+      return;
+    }
+
+    const username = event.currentTarget.username?.value;
+    const email = event.currentTarget.email?.value;
+    const avatarUrl = event.currentTarget.avatarUrl?.value;
+
+    const user = {
+      username,
+      email,
+      avatarUrl,
+    };
+
+    authContext.update(user).then(() => {
+      setIsLoading(false);
+    });
+  };
+
   return (
     <Box
+      component={'form'}
+      onSubmit={handleSubmit}
       sx={{
-        component: 'form',
         display: 'flex',
         flexDirection: 'column',
         gap: 2,
@@ -46,42 +82,48 @@ export function UserProfile() {
           alignItems: 'center',
         }}
       >
-        <Typography variant="h4">Pascal's profile page</Typography>
+        <Typography variant="h4">{user?.userName}'s profile page</Typography>
         <Avatar
           alt="avatar"
-          src="https://avatars0.githubusercontent.com/u/17098180?s=460&v=4"
+          src={
+            user?.avatarUrl ??
+            'https://i.pinimg.com/474x/2f/ec/a4/2feca4c9330929232091f910dbff7f87.jpg'
+          }
           sx={{ width: 80, height: 80 }}
         />
       </Box>
 
       <TextField
         {...textFieldCommonProps}
+        id="username"
         label="Username"
-        defaultValue="Pascal"
+        defaultValue={user?.userName}
       />
       <TextField
         {...textFieldCommonProps}
+        id="email"
+        type="email"
         label="Email"
-        defaultValue="pascal@pascou.com"
+        defaultValue={user?.email}
       />
       <TextField
         {...textFieldCommonProps}
+        id="avatarUrl"
         label="AvatarURL"
-        defaultValue="https://avatars0.githubusercontent.com/u/17098180?s=460&v=4"
+        defaultValue={user?.avatarUrl ?? ''}
       />
 
       <Button size="small" onClick={handleOpen}>
         Change password
       </Button>
-      <PasswordDialog open={open} onClose={handleClose} onSave={handleClose} />
+      <PasswordDialog
+        open={open}
+        onClose={handleClose}
+        onSave={updatePassword}
+      />
 
-      <Button
-        onClick={handleChange}
-        size="small"
-        type="submit"
-        variant="contained"
-      >
-        {isEditing ? 'Save profile' : 'Edit profile'}
+      <Button size="small" type="submit" variant="contained">
+        {isEditing ? 'Save' : 'Edit'}
       </Button>
     </Box>
   );
