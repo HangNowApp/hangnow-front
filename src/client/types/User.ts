@@ -5,4 +5,5 @@ export type User = {
   email: string;
   phoneNumber: string;
   isPremium: boolean;
+  avatarUrl: string;
 };
