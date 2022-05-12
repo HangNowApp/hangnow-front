@@ -9,56 +9,50 @@ import {
 import React from 'react';
 import Avatars from '~/components/avatars/Avatars';
 import TagChip from '~/components/TagFilter/TagChip';
-import { tag } from '~/types/typeTag';
+import { AppEvent } from '~/types/event';
+import { tag } from '~/types/tag';
 
-export type MeetEventCardProps = {
-  imageUrl: string;
-  title: string;
-  time: string;
-  tags: tag[];
-};
-
-export function MeetEventCard({
-  imageUrl,
-  title,
-  time,
-  tags,
-}: MeetEventCardProps) {
+export function MeetEventCard({ imageUrl, name, startDate, tags }: AppEvent) {
   return (
-    <Box width="100%">
-      <Card>
-        <CardActionArea>
-          <CardMedia component="img" height="140" image={imageUrl} alt="img" />
-          <CardContent>
-            <Typography gutterBottom variant="h6" align="center">
-              {title}
+    <Card sx={{ borderRadius: 4, boxShadow: '0px 0px 10px 5px #00000020' }}>
+      <CardActionArea
+        sx={{
+          height: 1,
+          display: 'flex',
+          justifyContent: 'start',
+          flexDirection: 'column',
+        }}
+      >
+        <CardMedia component="img" height="140" image={imageUrl} />
+        <CardContent sx={{ width: 1 }}>
+          <Typography gutterBottom variant="h6" align="center">
+            {name}
+          </Typography>
+
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+            }}
+          >
+            <Typography variant="body2" align="left">
+              {startDate?.toLocaleString('en-US', {})}
             </Typography>
-          </CardContent>
-
-          <CardContent>
-            <Box
-              sx={{
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-              }}
-            >
-              <Typography variant="body2" align="left">
-                {time}
-              </Typography>
-              <Box>
-                <Avatars />
-              </Box>
+            <Box>
+              <Avatars />
             </Box>
+          </Box>
 
+          {tags?.length && (
             <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1, mt: 1 }}>
-              {tags.map((tag) => {
+              {tags?.map((tag) => {
                 return <TagChip name={tag.name} selected={false} />;
               })}
             </Box>
-          </CardContent>
-        </CardActionArea>
-      </Card>
-    </Box>
+          )}
+        </CardContent>
+      </CardActionArea>
+    </Card>
   );
 }

@@ -61,20 +61,18 @@ export async function client(
     ...customConfig,
   };
 
-  return window
-    .fetch(`${BASE_URL}${endpoint}`, config)
-    .then(async (response) => {
-      // statusCode "401" is for unauthenticated request
-      if (response.status === 401) {
-        return Promise.reject({ message: 'Please re-authenticate.' });
-      }
+  return fetch(`${BASE_URL}api/${endpoint}`, config).then((response) => {
+    // statusCode "401" is for unauthenticated request
+    if (response.status === 401) {
+      return Promise.reject({ message: 'Please re-authenticate.' });
+    }
 
-      if (response.ok) {
-        return Promise.resolve(response);
-      } else {
-        return Promise.reject(response);
-      }
-    });
+    if (response.ok) {
+      return Promise.resolve(response);
+    } else {
+      return Promise.reject(response);
+    }
+  });
 }
 
 export const clientJson = <T>(
