@@ -1,6 +1,6 @@
 import {
   CalendarMonthOutlined,
-  ChatBubbleOutlined,
+  ChatBubbleOutline,
   MapsHomeWorkOutlined,
 } from '@mui/icons-material';
 import { Box } from '@mui/material';
@@ -17,11 +17,11 @@ export default function AppFooter() {
       maxWidth="380px"
     >
       <FooterButton icon={<MapsHomeWorkOutlined />} text="Home" href="/" />
-      <FooterButton icon={<ChatBubbleOutlined />} text="Chat" href="/chat" />
+      <FooterButton icon={<ChatBubbleOutline />} text="Chat" href="/chat" />
       <FooterButton
         icon={<CalendarMonthOutlined />}
         text="Events"
-        href="/events"
+        href="/event"
       />
     </Box>
   );
