@@ -21,8 +21,8 @@ export default function MeetEventCardList({ cards }: MeetEventCardListProps) {
       }}
       width="100%"
     >
-      {cards.map((card) => {
-        return <MeetEventCard {...card} />;
+      {cards.map((card, index) => {
+        return <MeetEventCard {...card} key={index} />;
       })}
     </Box>
   );
