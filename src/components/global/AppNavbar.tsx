@@ -11,7 +11,13 @@ export default function AppNavbar() {
   const authContext = useAuthContext();
 
   return (
-    <Box display="flex" flexDirection="row" alignItems="center" gap={2}>
+    <Box
+      display="flex"
+      flexDirection="row"
+      alignItems="center"
+      gap={2}
+      minHeight={42}
+    >
       <Link href="/">
         <Box component="a" sx={{ mr: 'auto' }}>
           <AppLogo sx={{ cursor: 'pointer' }} />

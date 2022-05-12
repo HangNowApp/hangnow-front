@@ -1,106 +1,76 @@
-import { Box } from '@mui/material';
+import { Box, CircularProgress } from '@mui/material';
 import type { NextPage } from 'next';
-import { MeetEventCardProps } from '~/components/event/meet-event-card';
+import { useEffect, useState } from 'react';
+import { clientJson } from '~/client/client';
+import { Nullable } from '~/client/types/utility';
 import MeetEventCardList from '~/components/event/meet-event-card/MeetEventCardList';
 import TagFilter from '~/components/TagFilter/TagFilter';
-import { tag } from '~/types/typeTag';
+import { AppEvent } from '~/types/event';
+import { tag } from '~/types/tag';
 
-const tags: tag[] = [
-  { id: 0, name: 'Buisiness' },
-  { id: 1, name: 'lol' },
-  { id: 2, name: 'test' },
-  { id: 3, name: 'test' },
-  { id: 4, name: 'test' },
-  { id: 5, name: 'test' },
-  { id: 6, name: 'test' },
-  { id: 7, name: 'test' },
-];
+const Home: NextPage<Data> = (props) => {
+  const [selectedTagId, setSelectedTagId] = useState<Nullable<number>>();
+  const [events, setEvents] = useState<AppEvent[]>(props.events);
+  const [isLoading, setIsLoading] = useState(false);
 
-const cards: MeetEventCardProps[] = [
-  {
-    imageUrl: 'https://bit.ly/3surrpX',
-    title: 'Meet for blabla',
-    time: '3min ago',
-    tags: [
-      { id: 1, name: 'buisiness' },
-      { id: 1, name: 'buisiness' },
-      { id: 1, name: 'buisiness' },
-    ],
-  },
-  {
-    imageUrl: 'https://bit.ly/3surrpX',
-    title: 'Meet for blabla',
-    time: '3min ago',
-    tags: [
-      { id: 1, name: 'buisiness' },
-      { id: 1, name: 'buisiness' },
-      { id: 1, name: 'buisiness' },
-    ],
-  },
-  {
-    imageUrl: 'https://bit.ly/3surrpX',
-    title: 'Meet for blabla',
-    time: '3min ago',
-    tags: [
-      { id: 1, name: 'buisiness' },
-      { id: 1, name: 'buisiness' },
-      { id: 1, name: 'buisiness' },
-    ],
-  },
-  {
-    imageUrl: 'https://bit.ly/3surrpX',
-    title: 'Meet for blabla',
-    time: '3min ago',
-    tags: [
-      { id: 1, name: 'buisiness' },
-      { id: 1, name: 'buisiness' },
-      { id: 1, name: 'buisiness' },
-    ],
-  },
-  {
-    imageUrl: 'https://bit.ly/3surrpX',
-    title: 'Meet for blabla',
-    time: '3min ago',
-    tags: [
-      { id: 1, name: 'buisiness' },
-      { id: 1, name: 'buisiness' },
-      { id: 1, name: 'buisiness' },
-    ],
-  },
-  {
-    imageUrl: 'https://bit.ly/3surrpX',
-    title: 'Meet for blabla',
-    time: '3min ago',
-    tags: [
-      { id: 1, name: 'buisiness' },
-      { id: 1, name: 'buisiness' },
-      { id: 1, name: 'buisiness' },
-    ],
-  },
-  {
-    imageUrl: 'https://bit.ly/3surrpX',
-    title: 'Meet for blabla',
-    time: '3min ago',
-    tags: [
-      { id: 1, name: 'buisiness' },
-      { id: 1, name: 'buisiness' },
-      { id: 1, name: 'buisiness' },
-    ],
-  },
-];
+  useEffect(() => {
+    if (selectedTagId == null) {
+      return;
+    }
 
-const Home: NextPage = () => (
-  <Box
-    display="flex"
-    flexDirection="column"
-    justifyContent="center"
-    alignItems="center"
-    width="100%"
-    height="85%"
-  >
-    <TagFilter tags={tags} selectedTag={1} />
-    <MeetEventCardList cards={cards} />
-  </Box>
-);
+    setIsLoading(true);
+    getEvents(selectedTagId)
+      .then((events) => {
+        setEvents(events);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }, [selectedTagId]);
+
+  return (
+    <Box>
+      <TagFilter
+        tags={props.tags}
+        selectedTagId={selectedTagId}
+        onTagClick={(tag) => {
+          setSelectedTagId(tag);
+        }}
+      />
+      {isLoading ? (
+        <CircularProgress />
+      ) : events.length === 0 ? (
+        <p>No events</p>
+      ) : (
+        <MeetEventCardList cards={events} />
+      )}
+    </Box>
+  );
+};
+
+type Data = {
+  tags: tag[];
+  events: AppEvent[];
+};
+
+const getEvents = (tagId?: number) => {
+  let url = 'event';
+
+  if (tagId) {
+    url = `event?tagId=${tagId}`;
+  }
+
+  return clientJson<AppEvent[]>(url, { token: '' });
+};
+
+// This gets called on every request
+export async function getServerSideProps(): Promise<{ props: Data }> {
+  // Fetch data from external API
+  const events = await getEvents();
+  const tags = await clientJson<tag[]>('tag', { token: '' });
+
+  // Pass data to the page via props
+  return { props: { events, tags } };
+}
 
 export default Home;

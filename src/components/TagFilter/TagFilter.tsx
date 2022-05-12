@@ -1,14 +1,19 @@
 import { Box, Chip, Typography } from '@mui/material';
 import Link from 'next/link';
-import { tag } from '~/types/typeTag';
+import { tag } from '~/types/tag';
 import TagChip from './TagChip';
 
 type TagFilterProps = {
   tags: tag[];
-  selectedTag?: number;
+  selectedTagId?: number;
+  onTagClick: (tagId: number) => void;
 };
 
-export default function TagFilter({ tags, selectedTag }: TagFilterProps) {
+export default function TagFilter({
+  tags,
+  selectedTagId,
+  onTagClick,
+}: TagFilterProps) {
   return (
     <Box display="flex" flexDirection="column" alignItems="center" width="100%">
       <Box
@@ -27,20 +32,25 @@ export default function TagFilter({ tags, selectedTag }: TagFilterProps) {
         justifyContent="start"
         alignItems="center"
         width="100%"
-        gap={2}
+        gap={1}
         overflow="scroll"
         sx={{
           '&::-webkit-scrollbar': {
             width: 0,
           },
         }}
+        py={2}
       >
         {tags.length > 0 &&
-          tags.map((tag) => {
-            return (
-              <TagChip name={tag.name} selected={tag.id === selectedTag} />
-            );
-          })}
+          tags.map((tag) => (
+            <TagChip
+              onClick={() => {
+                onTagClick(tag.id);
+              }}
+              name={tag.name}
+              selected={tag.id === selectedTagId}
+            />
+          ))}
       </Box>
     </Box>
   );

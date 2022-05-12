@@ -1,28 +1,28 @@
 import { Box } from '@mui/material';
-import { MeetEventCard, MeetEventCardProps } from './MeetEventCard';
+import { AppEvent } from '~/types/event';
+import { MeetEventCard } from './MeetEventCard';
 
 type MeetEventCardListProps = {
-  cards: MeetEventCardProps[];
+  cards: AppEvent[];
 };
 
 export default function MeetEventCardList({ cards }: MeetEventCardListProps) {
   return (
     <Box
-      display="flex"
-      flexDirection="row"
-      justifyContent="space-between"
-      alignItems="center"
-      overflow="scroll"
-      gap={2}
       sx={{
-        '&::-webkit-scrollbar': {
-          width: 0,
+        width: 1,
+        display: 'flex',
+        overflow: 'auto',
+        gap: 2,
+        py: 2,
+        px: 1,
+        '& > *': {
+          minWidth: 260,
         },
       }}
-      width="100%"
     >
-      {cards.map((card, index) => {
-        return <MeetEventCard {...card} key={index} />;
+      {cards.map((card) => {
+        return <MeetEventCard {...card} key={card.id} />;
       })}
     </Box>
   );
