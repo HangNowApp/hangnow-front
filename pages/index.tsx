@@ -90,7 +90,14 @@ const cards: MeetEventCardProps[] = [
 ];
 
 const Home: NextPage = () => (
-  <Box>
+  <Box
+    display="flex"
+    flexDirection="column"
+    justifyContent="center"
+    alignItems="center"
+    width="100%"
+    height="85%"
+  >
     <TagFilter tags={tags} selectedTag={1} />
     <MeetEventCardList cards={cards} />
   </Box>
