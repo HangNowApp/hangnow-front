@@ -16,7 +16,7 @@ export default function AppFooter() {
       width="100%"
       maxWidth="380px"
     >
-      <FooterButton icon={<MapsHomeWorkOutlined />} text="Home" href="/home" />
+      <FooterButton icon={<MapsHomeWorkOutlined />} text="Home" href="/" />
       <FooterButton icon={<ChatBubbleOutlined />} text="Chat" href="/chat" />
       <FooterButton
         icon={<CalendarMonthOutlined />}
