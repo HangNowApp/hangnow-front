@@ -1,28 +1,98 @@
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import type { NextPage } from 'next';
-import { MeetEventCard } from '~/components/event/meet-event-card';
+import { MeetEventCardProps } from '~/components/event/meet-event-card';
+import MeetEventCardList from '~/components/event/meet-event-card/MeetEventCardList';
+import TagFilter from '~/components/TagFilter/TagFilter';
+import { tag } from '~/types/typeTag';
+
+const tags: tag[] = [
+  { id: 0, name: 'Buisiness' },
+  { id: 1, name: 'lol' },
+  { id: 2, name: 'test' },
+  { id: 3, name: 'test' },
+  { id: 4, name: 'test' },
+  { id: 5, name: 'test' },
+  { id: 6, name: 'test' },
+  { id: 7, name: 'test' },
+];
+
+const cards: MeetEventCardProps[] = [
+  {
+    imageUrl: 'https://bit.ly/3surrpX',
+    title: 'Meet for blabla',
+    time: '3min ago',
+    tags: [
+      { id: 1, name: 'buisiness' },
+      { id: 1, name: 'buisiness' },
+      { id: 1, name: 'buisiness' },
+    ],
+  },
+  {
+    imageUrl: 'https://bit.ly/3surrpX',
+    title: 'Meet for blabla',
+    time: '3min ago',
+    tags: [
+      { id: 1, name: 'buisiness' },
+      { id: 1, name: 'buisiness' },
+      { id: 1, name: 'buisiness' },
+    ],
+  },
+  {
+    imageUrl: 'https://bit.ly/3surrpX',
+    title: 'Meet for blabla',
+    time: '3min ago',
+    tags: [
+      { id: 1, name: 'buisiness' },
+      { id: 1, name: 'buisiness' },
+      { id: 1, name: 'buisiness' },
+    ],
+  },
+  {
+    imageUrl: 'https://bit.ly/3surrpX',
+    title: 'Meet for blabla',
+    time: '3min ago',
+    tags: [
+      { id: 1, name: 'buisiness' },
+      { id: 1, name: 'buisiness' },
+      { id: 1, name: 'buisiness' },
+    ],
+  },
+  {
+    imageUrl: 'https://bit.ly/3surrpX',
+    title: 'Meet for blabla',
+    time: '3min ago',
+    tags: [
+      { id: 1, name: 'buisiness' },
+      { id: 1, name: 'buisiness' },
+      { id: 1, name: 'buisiness' },
+    ],
+  },
+  {
+    imageUrl: 'https://bit.ly/3surrpX',
+    title: 'Meet for blabla',
+    time: '3min ago',
+    tags: [
+      { id: 1, name: 'buisiness' },
+      { id: 1, name: 'buisiness' },
+      { id: 1, name: 'buisiness' },
+    ],
+  },
+  {
+    imageUrl: 'https://bit.ly/3surrpX',
+    title: 'Meet for blabla',
+    time: '3min ago',
+    tags: [
+      { id: 1, name: 'buisiness' },
+      { id: 1, name: 'buisiness' },
+      { id: 1, name: 'buisiness' },
+    ],
+  },
+];
 
 const Home: NextPage = () => (
   <Box>
-    <Typography variant="h2">TODO: home page</Typography>
-    <MeetEventCard
-      imageUrl="https://thumbs.dreamstime.com/b/finance-business-concept-invesment-graph-coins-rows-investment-growth-table-blue-color-tone-111488763.jpg"
-      title="Meet for money talk"
-      time="3min ago" 
-    />
-    <TagFilter
-      tags={[
-        { id: 0, name: 'Buisiness' },
-        { id: 1, name: 'lol' },
-        { id: 2, name: 'test' },
-        { id: 3, name: 'test' },
-        { id: 4, name: 'test' },
-        { id: 5, name: 'test' },
-        { id: 6, name: 'test' },
-        { id: 7, name: 'test' },
-      ]}
-      selectedTag={1}
-    />
+    <TagFilter tags={tags} selectedTag={1} />
+    <MeetEventCardList cards={cards} />
   </Box>
 );
 

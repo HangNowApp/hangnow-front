@@ -73,6 +73,13 @@ const lightTheme = createTheme({
     secondary: {
       main: '#19857b',
     },
+    background: {
+      default: '#FFFFFF',
+      paper: '#FAFAFA',
+    },
+    text: {
+      primary: '#000000',
+    },
   },
   components,
 });
@@ -89,6 +96,9 @@ const darkTheme = createTheme({
     background: {
       default: '#1E2025',
       paper: '#26241E',
+    },
+    text: {
+      primary: '#FFFFFF',
     },
   },
   components,

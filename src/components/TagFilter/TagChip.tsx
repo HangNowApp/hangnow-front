@@ -11,6 +11,9 @@ export default function TagChip({ selected, name }: TagChipProps) {
       label={name}
       color="primary"
       variant={selected ? 'filled' : 'outlined'}
+      sx={{
+        color: selected ? '#FFFFFF' : 'text.primary',
+      }}
     />
   );
 }
