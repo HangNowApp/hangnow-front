@@ -27,7 +27,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
 
   const isLoggedIn = Boolean(user);
 
-  const updateUser = () => {
+  const refreshUser = () => {
     const token = JWT.getToken();
 
     if (token) {
@@ -47,7 +47,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
   };
 
   useEffect(() => {
-    updateUser();
+    refreshUser();
   }, []);
 
   const logout = () => {
@@ -57,7 +57,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
 
   const login = (token: string) => {
     JWT.setToken(token);
-    updateUser();
+    refreshUser();
   };
 
   const values = { user, isLoading, isLoggedIn, logout, login };
