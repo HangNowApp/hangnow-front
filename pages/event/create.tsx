@@ -1,35 +1,32 @@
 import {
   Box,
   Button,
-  ListItemText,
   MenuItem,
   SelectChangeEvent,
   TextField,
   Typography,
 } from '@mui/material';
+import { NextPage } from 'next';
 import React, { useState } from 'react';
+import { clientJson } from '~/client/client';
+import { Tag } from '~/types/tag';
 
-const tags = [
-  { id: '1', value: 'Finances' },
-  { id: '2', value: 'Sport' },
-  { id: '3', value: 'Culture' },
-];
-
-export default function create() {
-  const [people, setPeople] = React.useState<string | null>(null);
-  const [tag, setTag] = React.useState([]);
+const Create: NextPage<Data> = ({ tags: allTags }) => {
+  const [tags, setTags] = React.useState<Tag[]>([]);
 
   const handleChangeTags = (event: SelectChangeEvent<unknown>) => {
-    const value = event.target.value;
-    setTag(typeof value === 'string' ? value.split(',') : value);
+    const value = event.target.value as Tag | Tag[];
+    setTags(Array.isArray(value) ? value : [value]);
   };
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPeople(event.target.value);
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = (event) => {
+    event.preventDefault();
+    console.log('test');
   };
 
   return (
     <Box
+      onSubmit={handleSubmit}
       component={'form'}
       sx={{
         display: 'flex',
@@ -51,25 +48,9 @@ export default function create() {
       />
 
       <TextField
-        value={people}
-        onChange={handleChange}
-        select
-        label="Max participants"
-      >
-        {new Array(10)
-          .fill(0)
-          .map((_, i) => i + 1)
-          .map((e) => (
-            <MenuItem value={e} key={e}>
-              {e}
-            </MenuItem>
-          ))}
-      </TextField>
-
-      <TextField
         select
         label="Tags"
-        value={tag}
+        value={tags}
         SelectProps={{
           multiple: true,
           onChange: handleChangeTags,
@@ -78,9 +59,9 @@ export default function create() {
           ),
         }}
       >
-        {tags.map((tag) => (
-          <MenuItem key={tag.value} value={tag.value}>
-            <ListItemText primary={tag.value} />
+        {allTags.map((tag) => (
+          <MenuItem key={tag.id} value={tag.name}>
+            {tag.name}
           </MenuItem>
         ))}
       </TextField>
@@ -90,4 +71,18 @@ export default function create() {
       </Button>
     </Box>
   );
+};
+
+export default Create;
+
+type Data = {
+  tags: Tag[];
+};
+
+export async function getServerSideProps(): Promise<{ props: Data }> {
+  // Fetch data from external API
+  const tags = await clientJson<Tag[]>('tag');
+
+  // Pass data to the page via props
+  return { props: { tags } };
 }

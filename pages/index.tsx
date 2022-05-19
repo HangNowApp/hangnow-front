@@ -6,7 +6,7 @@ import { Nullable } from '~/client/types/utility';
 import MeetEventCardList from '~/components/event/meet-event-card/MeetEventCardList';
 import TagFilter from '~/components/TagFilter/TagFilter';
 import { AppEvent } from '~/types/event';
-import { tag } from '~/types/tag';
+import { Tag } from '~/types/tag';
 
 const Home: NextPage<Data> = (props) => {
   const [selectedTagId, setSelectedTagId] = useState<Nullable<number>>();
@@ -49,7 +49,7 @@ const Home: NextPage<Data> = (props) => {
 };
 
 type Data = {
-  tags: tag[];
+  tags: Tag[];
   events: AppEvent[];
 };
 
@@ -67,7 +67,7 @@ const getEvents = (tagId?: number) => {
 export async function getServerSideProps(): Promise<{ props: Data }> {
   // Fetch data from external API
   const events = await getEvents();
-  const tags = await clientJson<tag[]>('tag', { token: '' });
+  const tags = await clientJson<Tag[]>('tag');
 
   // Pass data to the page via props
   return { props: { events, tags } };

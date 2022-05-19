@@ -1,5 +1,5 @@
 import { User } from '~/client/types/User';
-import { tag } from './tag';
+import { Tag } from './tag';
 
 export type AppEvent = {
   id: string;
@@ -11,6 +11,6 @@ export type AppEvent = {
   endDate?: Date;
   owner?: User;
   participants?: User[];
-  tags?: tag[];
+  tags?: Tag[];
   createdAt?: Date;
 };
