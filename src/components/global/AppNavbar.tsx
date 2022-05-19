@@ -1,7 +1,7 @@
 import { Box, Button, Typography } from '@mui/material';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useAuthContext } from '~/context/AuthContext';
+import { useAuthContext } from '~/hooks/context/AuthContext';
 import AppLogo from './AppLogo';
 
 export default function AppNavbar() {

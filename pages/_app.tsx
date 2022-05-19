@@ -7,8 +7,9 @@ import themes from '~/theme/theme';
 import '../styles/globals.css';
 import { NextAppProps } from '~/types/NextApp';
 import Head from 'next/head';
-import { AuthContextProvider } from '~/context/AuthContext';
+import { AuthContextProvider } from '~/hooks/context/AuthContext';
 import Layout from '~/components/global/layout/Layout';
+import { SnackbarProvider } from 'notistack';
 
 const clientSideEmotionCache = createEmotionCache();
 
@@ -23,14 +24,16 @@ const MyApp = (props: NextAppProps) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <CacheProvider value={emotionCache}>
-        <ThemeProvider theme={themes.lightTheme}>
-          <CssBaseline />
-          <AuthContextProvider>
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
-          </AuthContextProvider>
-        </ThemeProvider>
+        <SnackbarProvider maxSnack={3}>
+          <ThemeProvider theme={themes.lightTheme}>
+            <CssBaseline />
+            <AuthContextProvider>
+              <Layout>
+                <Component {...pageProps} />
+              </Layout>
+            </AuthContextProvider>
+          </ThemeProvider>
+        </SnackbarProvider>
       </CacheProvider>
     </>
   );
