@@ -23,7 +23,7 @@ const MyApp = (props: NextAppProps) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <CacheProvider value={emotionCache}>
-        <ThemeProvider theme={themes.lightTheme}>
+        <ThemeProvider theme={themes.darkTheme}>
           <CssBaseline />
           <AuthContextProvider>
             <Layout>
