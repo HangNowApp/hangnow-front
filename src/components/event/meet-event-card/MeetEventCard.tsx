@@ -12,7 +12,14 @@ import TagChip from '~/components/TagFilter/TagChip';
 import { AppEvent } from '~/types/event';
 import { tag } from '~/types/tag';
 
-export function MeetEventCard({ imageUrl, name, startDate, tags }: AppEvent) {
+export function MeetEventCard({
+  imageUrl,
+  name,
+  startDate,
+  tags,
+  users,
+  location,
+}: AppEvent) {
   return (
     <Card sx={{ borderRadius: 4, boxShadow: '0px 0px 10px 5px #00000020' }}>
       <CardActionArea
@@ -37,20 +44,20 @@ export function MeetEventCard({ imageUrl, name, startDate, tags }: AppEvent) {
             }}
           >
             <Typography variant="body2" align="left">
-              {startDate?.toLocaleString('en-US', {})}
+              {location}
             </Typography>
             <Box>
-              <Avatars />
+              <Avatars users={users} />
             </Box>
           </Box>
 
-          {tags?.length && (
+          {tags?.length ? (
             <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1, mt: 1 }}>
               {tags?.map((tag) => {
                 return <TagChip name={tag.name} selected={false} />;
               })}
             </Box>
-          )}
+          ) : null}
         </CardContent>
       </CardActionArea>
     </Card>
