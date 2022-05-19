@@ -28,6 +28,7 @@ export function PasswordDialog({ open, onClose }: PasswordDialogProps) {
 
     if (!oldpassword && !newpassword) {
       enqueueSnackbar('Password cannot be empty', { variant: 'error' });
+      return;
     }
 
     setIsLoading(true);
