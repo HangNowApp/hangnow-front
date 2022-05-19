@@ -24,8 +24,8 @@ export default function AppFooter() {
       <FooterButton icon={<ChatBubbleOutline />} text="Chat" href="/chat" />
       <FooterButton
         icon={<CalendarMonthOutlined />}
-        text="Events"
-        href="/event"
+        text="New Event"
+        href="/event/create"
       />
       {authContext.isLoggedIn && (
         <FooterButton

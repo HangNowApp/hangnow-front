@@ -35,11 +35,6 @@ export default function AppNavbar() {
           </Button>
         </Link>
       )}
-      {authContext.isLoggedIn && (
-        <Button href="/event/create" variant="contained" size="small">
-          New event
-        </Button>
-      )}
     </Box>
   );
 }
