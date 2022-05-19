@@ -30,8 +30,8 @@ export function EventForm() {
 
   return (
     <Box
+      component={'form'}
       sx={{
-        component: 'form',
         display: 'flex',
         flexDirection: 'column',
         gap: 2,

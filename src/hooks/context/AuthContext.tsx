@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { clientJson } from '~/client/client';
 import { JWT } from '~/client/jwr';
+import { AuthResponse } from '~/client/types/Auth';
 import { User } from '~/client/types/User';
 import { Nullable } from '~/client/types/utility';
 
@@ -10,6 +11,7 @@ type AuthContextProps = {
   isLoggedIn: boolean;
   logout: () => void;
   login: (token: string) => void;
+  update: (user: Partial<User>) => Promise<User | null>;
 };
 
 const AuthContext = React.createContext<AuthContextProps>({
@@ -17,6 +19,7 @@ const AuthContext = React.createContext<AuthContextProps>({
   isLoggedIn: false,
   logout: () => {},
   login: () => {},
+  update: () => Promise.resolve(null),
 });
 
 type AuthContextProviderProps = { children: React.ReactElement };
@@ -27,7 +30,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
 
   const isLoggedIn = Boolean(user);
 
-  const updateUser = () => {
+  const refreshUser = () => {
     const token = JWT.getToken();
 
     if (token) {
@@ -47,8 +50,23 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
   };
 
   useEffect(() => {
-    updateUser();
+    refreshUser();
   }, []);
+
+  const update = (user: Partial<User>) => {
+    setIsLoading(true);
+    return clientJson<User>('auth/update', { method: 'PATCH', data: user })
+      .then((user) => {
+        setIsLoading(false);
+        setUser(user);
+        return user;
+      })
+      .catch((err) => {
+        console.error('err', err);
+        setIsLoading(false);
+        return null;
+      });
+  };
 
   const logout = () => {
     JWT.deleteToken();
@@ -57,10 +75,10 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
 
   const login = (token: string) => {
     JWT.setToken(token);
-    updateUser();
+    refreshUser();
   };
 
-  const values = { user, isLoading, isLoggedIn, logout, login };
+  const values = { user, isLoading, isLoggedIn, logout, login, update };
 
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;
 }
