@@ -13,10 +13,18 @@ export default function AppNavbar() {
   return (
     <Box
       display="flex"
+      position="fixed"
       flexDirection="row"
       alignItems="center"
       gap={2}
       minHeight={42}
+      bgcolor="background.paper"
+      zIndex={10}
+      py={1}
+      top={0}
+      left={0}
+      width={1}
+      px={1}
     >
       <Link href="/">
         <Box component="a" sx={{ mr: 'auto' }}>

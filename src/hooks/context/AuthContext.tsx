@@ -4,6 +4,7 @@ import { JWT } from '~/client/jwr';
 import { AuthResponse } from '~/client/types/Auth';
 import { User } from '~/client/types/User';
 import { Nullable } from '~/client/types/utility';
+import { useLoadingClient } from '../useLoadingClient';
 
 type AuthContextProps = {
   user?: User;
@@ -26,27 +27,23 @@ type AuthContextProviderProps = { children: React.ReactElement };
 
 export function AuthContextProvider({ children }: AuthContextProviderProps) {
   const [user, setUser] = useState<Nullable<User>>();
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const { isLoading, run } = useLoadingClient();
 
   const isLoggedIn = Boolean(user);
 
   const refreshUser = () => {
     const token = JWT.getToken();
 
-    if (token) {
-      setIsLoading(true);
-      clientJson<User>('auth/me')
-        .then((res) => {
-          setUser(res);
-          setIsLoading(false);
-        })
-        .catch((err) => {
-          console.error('err', err);
-          setIsLoading(false);
-        });
-    } else {
-      setIsLoading(false);
+    if (!token) {
+      return;
     }
+    run<User>('auth/me')
+      .then((res) => {
+        setUser(res);
+      })
+      .catch((err) => {
+        console.error('err', err);
+      });
   };
 
   useEffect(() => {
