@@ -2,6 +2,7 @@ import { Box, Button, Typography } from '@mui/material';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useAuthContext } from '~/hooks/context/AuthContext';
+import AppLink from './AppLink';
 import AppLogo from './AppLogo';
 
 export default function AppNavbar() {
@@ -32,9 +33,7 @@ export default function AppNavbar() {
         </Box>
       </Link>
       {authContext.isLoggedIn && (
-        <Link href="/account">
-          <Typography>@{authContext.user?.userName}</Typography>
-        </Link>
+        <AppLink href="/account">@{authContext.user?.userName}</AppLink>
       )}
       {isNotLogin && (
         <Link href={authContext.isLoggedIn ? '/logout' : '/login'}>

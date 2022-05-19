@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { clientJson } from '~/client/client';
 import { JWT } from '~/client/jwr';
-import { AuthResponse } from '~/client/types/Auth';
 import { User } from '~/client/types/User';
 import { Nullable } from '~/client/types/utility';
 import { useLoadingClient } from '../useLoadingClient';
@@ -50,17 +48,13 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     refreshUser();
   }, []);
 
-  const update = (user: Partial<User>) => {
-    setIsLoading(true);
-    return clientJson<User>('auth/update', { method: 'PATCH', data: user })
+  const update = async (user: Partial<User>) => {
+    return run<User>('auth/update', { method: 'PATCH', data: user })
       .then((user) => {
-        setIsLoading(false);
         setUser(user);
         return user;
       })
       .catch((err) => {
-        console.error('err', err);
-        setIsLoading(false);
         return null;
       });
   };

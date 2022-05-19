@@ -20,15 +20,21 @@ export default function AppFooter() {
       width="100%"
       maxWidth="380px"
     >
-      <FooterButton icon={<MapsHomeWorkOutlined />} text="Home" href="/" />
-      <FooterButton icon={<ChatBubbleOutline />} text="Chat" href="/chat" />
       <FooterButton
+        sx={{ flex: 1 }}
+        icon={<MapsHomeWorkOutlined />}
+        text="Home"
+        href="/"
+      />
+      <FooterButton
+        sx={{ flex: 1 }}
         icon={<CalendarMonthOutlined />}
         text="New Event"
         href="/event/create"
       />
       {authContext.isLoggedIn && (
         <FooterButton
+          sx={{ flex: 1 }}
           icon={<AccountCircleOutlined />}
           text="Account"
           href="/account"
