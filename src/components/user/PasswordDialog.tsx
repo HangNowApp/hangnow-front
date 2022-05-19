@@ -6,10 +6,12 @@ import {
   DialogActions,
   Box,
 } from '@mui/material';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { useSnackbar } from 'notistack';
 import React, { useState } from 'react';
 import { clientJson } from '~/client/client';
 import { AuthResponse } from '~/client/types/Auth';
+import AppInput from '../global/AppInput';
 
 type PasswordDialogProps = {
   open: boolean;
@@ -24,7 +26,10 @@ export function PasswordDialog({ open, onClose }: PasswordDialogProps) {
     event?.preventDefault();
     const oldpassword = event.currentTarget.oldpassword.value;
     const newpassword = event.currentTarget.newpassword.value;
-    const passwords = oldpassword && newpassword;
+
+    if (!oldpassword && !newpassword) {
+      enqueueSnackbar('Password cannot be empty', { variant: 'error' });
+    }
 
     setIsLoading(true);
     clientJson<AuthResponse>('auth/change_password', {
@@ -42,10 +47,7 @@ export function PasswordDialog({ open, onClose }: PasswordDialogProps) {
         err.json().then((res: AuthResponse) => {
           if (!res.result) {
             console.error('err', res);
-            enqueueSnackbar(
-              passwords ? res.message : 'Password cannot be empty',
-              { variant: 'error' }
-            );
+            enqueueSnackbar(res.message, { variant: 'error' });
             setIsLoading(false);
           }
         });
@@ -53,12 +55,22 @@ export function PasswordDialog({ open, onClose }: PasswordDialogProps) {
   };
 
   return (
-    <Dialog open={open} onClose={() => onClose()}>
+    <Dialog open={open} onClose={() => onClose()} maxWidth="sm" fullWidth>
       <form onSubmit={updatePassword}>
         <DialogContent>
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-            <TextField id="oldpassword" type="password" label="Old Password" />
-            <TextField id="newpassword" type="password" label="New Password" />
+            <AppInput
+              id="oldpassword"
+              type="password"
+              placeholder="Old Password"
+              icon={<LockOutlinedIcon />}
+            />
+            <AppInput
+              id="newpassword"
+              type="password"
+              placeholder="New Password"
+              icon={<LockOutlinedIcon />}
+            />
           </Box>
         </DialogContent>
 
@@ -66,7 +78,7 @@ export function PasswordDialog({ open, onClose }: PasswordDialogProps) {
           <Button size="small" onClick={() => onClose()}>
             Cancel
           </Button>
-          <Button type="submit" size="small">
+          <Button type="submit" size="small" variant="contained">
             Save
           </Button>
         </DialogActions>
