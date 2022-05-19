@@ -58,6 +58,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     clientJson<AuthResponse>('auth/update', { method: 'PATCH', data: user })
       .then((res) => {
         setIsLoading(false);
+        refreshUser();
       })
       .catch((err) => {
         console.error('err', err);
