@@ -5,6 +5,7 @@ import {
   DialogContent,
   DialogActions,
   Box,
+  Typography,
 } from '@mui/material';
 import React, { useState } from 'react';
 import { clientJson } from '~/client/client';
@@ -32,13 +33,22 @@ export function PasswordDialog({ open, onClose }: PasswordDialogProps) {
         newpassword,
       },
     })
-      .then(() => {
-        setIsLoading(false);
-        onClose();
+      .then((res) => {
+        if (res.result) {
+          setIsLoading(false);
+          onClose();
+        } else {
+          setError(res.message);
+        }
       })
       .catch((err) => {
-        console.error('err', err);
-        setIsLoading(false);
+        err.json().then((res: AuthResponse) => {
+          if (!res.result) {
+            console.error('err', res);
+            setError(res.message);
+            setIsLoading(false);
+          }
+        });
       });
   };
 
@@ -49,6 +59,7 @@ export function PasswordDialog({ open, onClose }: PasswordDialogProps) {
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
             <TextField id="oldpassword" type="password" label="Old Password" />
             <TextField id="newpassword" type="password" label="New Password" />
+            {error ? <Typography color="error">{error}</Typography> : null}
           </Box>
         </DialogContent>
 

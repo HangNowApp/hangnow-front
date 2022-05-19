@@ -1,7 +1,7 @@
-import { UserProfile } from '~/components/user';
+import { UserAccount } from '~/components/user';
 import { useAuthContext } from '~/context/AuthContext';
 
-export default function profile() {
+export default function account() {
   const authContext = useAuthContext();
 
   if (authContext.isLoading) {
@@ -10,7 +10,7 @@ export default function profile() {
 
   return (
     <div>
-      <UserProfile></UserProfile>
+      <UserAccount></UserAccount>
     </div>
   );
 }

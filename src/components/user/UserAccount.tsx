@@ -7,17 +7,14 @@ import {
   Typography,
 } from '@mui/material';
 import React, { useState } from 'react';
-import { clientJson } from '~/client/client';
-import { AuthResponse } from '~/client/types/Auth';
 import { useAuthContext } from '~/context/AuthContext';
 import { PasswordDialog } from './PasswordDialog';
 
-export function UserProfile() {
+export function UserAccount() {
   const authContext = useAuthContext();
   const user = authContext.user;
   const [isEditing, setEditing] = useState(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string>('');
 
   const textFieldCommonProps: TextFieldProps = {
     disabled: !isEditing,

@@ -2,6 +2,7 @@ import {
   CalendarMonthOutlined,
   ChatBubbleOutline,
   MapsHomeWorkOutlined,
+  AccountCircleOutlined,
 } from '@mui/icons-material';
 import { Box } from '@mui/material';
 import FooterButton from './FooterButton';
@@ -22,6 +23,11 @@ export default function AppFooter() {
         icon={<CalendarMonthOutlined />}
         text="Events"
         href="/event"
+      />
+      <FooterButton
+        icon={<AccountCircleOutlined />}
+        text="Account"
+        href="/account"
       />
     </Box>
   );
