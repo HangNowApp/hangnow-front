@@ -5,8 +5,8 @@ import {
   DialogContent,
   DialogActions,
   Box,
-  Typography,
 } from '@mui/material';
+import { useSnackbar } from 'notistack';
 import React, { useState } from 'react';
 import { clientJson } from '~/client/client';
 import { AuthResponse } from '~/client/types/Auth';
@@ -18,12 +18,13 @@ type PasswordDialogProps = {
 
 export function PasswordDialog({ open, onClose }: PasswordDialogProps) {
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string>('');
+  const { enqueueSnackbar } = useSnackbar();
 
   const updatePassword: React.FormEventHandler<HTMLFormElement> = (event) => {
     event?.preventDefault();
     const oldpassword = event.currentTarget.oldpassword.value;
     const newpassword = event.currentTarget.newpassword.value;
+    const passwords = oldpassword && newpassword;
 
     setIsLoading(true);
     clientJson<AuthResponse>('auth/change_password', {
@@ -33,19 +34,18 @@ export function PasswordDialog({ open, onClose }: PasswordDialogProps) {
         newpassword,
       },
     })
-      .then((res) => {
-        if (res.result) {
-          setIsLoading(false);
-          onClose();
-        } else {
-          setError(res.message);
-        }
+      .then(() => {
+        setIsLoading(false);
+        onClose();
       })
       .catch((err) => {
         err.json().then((res: AuthResponse) => {
           if (!res.result) {
             console.error('err', res);
-            setError(res.message);
+            enqueueSnackbar(
+              passwords ? res.message : 'Password cannot be empty',
+              { variant: 'error' }
+            );
             setIsLoading(false);
           }
         });
@@ -59,7 +59,6 @@ export function PasswordDialog({ open, onClose }: PasswordDialogProps) {
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
             <TextField id="oldpassword" type="password" label="Old Password" />
             <TextField id="newpassword" type="password" label="New Password" />
-            {error ? <Typography color="error">{error}</Typography> : null}
           </Box>
         </DialogContent>
 
