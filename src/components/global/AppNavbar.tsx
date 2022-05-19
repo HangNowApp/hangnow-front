@@ -24,7 +24,9 @@ export default function AppNavbar() {
         </Box>
       </Link>
       {authContext.isLoggedIn && (
-        <Typography>@{authContext.user?.userName}</Typography>
+        <Link href="/account">
+          <Typography>@{authContext.user?.userName}</Typography>
+        </Link>
       )}
       {isNotLogin && (
         <Link href={authContext.isLoggedIn ? '/logout' : '/login'}>
@@ -32,6 +34,11 @@ export default function AppNavbar() {
             {authContext.isLoggedIn ? 'Logout' : 'Login'}
           </Button>
         </Link>
+      )}
+      {authContext.isLoggedIn && (
+        <Button href="/event/create" variant="contained" size="small">
+          New event
+        </Button>
       )}
     </Box>
   );

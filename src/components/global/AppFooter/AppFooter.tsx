@@ -5,9 +5,12 @@ import {
   AccountCircleOutlined,
 } from '@mui/icons-material';
 import { Box } from '@mui/material';
+import { useAuthContext } from '~/hooks/context/AuthContext';
 import FooterButton from './FooterButton';
 
 export default function AppFooter() {
+  const authContext = useAuthContext();
+
   return (
     <Box
       display="flex"
@@ -24,11 +27,13 @@ export default function AppFooter() {
         text="Events"
         href="/event"
       />
-      <FooterButton
-        icon={<AccountCircleOutlined />}
-        text="Account"
-        href="/account"
-      />
+      {authContext.isLoggedIn && (
+        <FooterButton
+          icon={<AccountCircleOutlined />}
+          text="Account"
+          href="/account"
+        />
+      )}
     </Box>
   );
 }

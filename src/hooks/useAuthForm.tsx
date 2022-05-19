@@ -19,8 +19,9 @@ export function useAuthForm(type: 'login' | 'register') {
           enqueueSnackbar(res.message, { variant: 'error' });
         }
       })
-      .catch((r) => {
-        r.json().then((res: AuthResponse) => {
+      .catch((res) => {
+        if (!res) return;
+        res.json().then((res: AuthResponse) => {
           if (!res.result) {
             enqueueSnackbar(res.message, { variant: 'error' });
           }
