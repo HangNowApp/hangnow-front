@@ -1,18 +1,23 @@
 import { Box, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
-import React, { useEffect } from 'react';
-import { JWT } from '~/client/jwr';
-import { useAuthContext } from '~/context/AuthContext';
+import { useEffect, useRef } from 'react';
+import { useAuthContext } from '~/hooks/context/AuthContext';
 
 export default function logout() {
   const router = useRouter();
   const authContext = useAuthContext();
+  const timeoutRef = useRef<NodeJS.Timeout>();
 
   useEffect(() => {
     authContext.logout();
-    setTimeout(() => {
+    timeoutRef.current = setTimeout(() => {
       router.push('/');
     }, 5000);
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
   }, []);
 
   return (
