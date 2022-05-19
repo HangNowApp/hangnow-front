@@ -1,5 +1,5 @@
 import { UserAccount } from '~/components/user';
-import { useAuthContext } from '~/context/AuthContext';
+import { useAuthContext } from '~/hooks/context/AuthContext';
 
 export default function account() {
   const authContext = useAuthContext();
