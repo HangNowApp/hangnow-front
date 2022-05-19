@@ -11,7 +11,7 @@ type AuthContextProps = {
   isLoggedIn: boolean;
   logout: () => void;
   login: (token: string) => void;
-  update: (user: Partial<User>) => Promise<void>;
+  update: (user: Partial<User>) => Promise<User | null>;
 };
 
 const AuthContext = React.createContext<AuthContextProps>({
@@ -19,7 +19,7 @@ const AuthContext = React.createContext<AuthContextProps>({
   isLoggedIn: false,
   logout: () => {},
   login: () => {},
-  update: () => Promise.resolve(),
+  update: () => Promise.resolve(null),
 });
 
 type AuthContextProviderProps = { children: React.ReactElement };
@@ -55,16 +55,17 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
 
   const update = (user: Partial<User>) => {
     setIsLoading(true);
-    clientJson<AuthResponse>('auth/update', { method: 'PATCH', data: user })
-      .then((res) => {
+    return clientJson<User>('auth/update', { method: 'PATCH', data: user })
+      .then((user) => {
         setIsLoading(false);
-        refreshUser();
+        setUser(user);
+        return user;
       })
       .catch((err) => {
         console.error('err', err);
         setIsLoading(false);
+        return null;
       });
-    return Promise.resolve();
   };
 
   const logout = () => {

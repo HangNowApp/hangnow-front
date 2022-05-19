@@ -12,6 +12,11 @@ import { useAuthContext } from '~/hooks/context/AuthContext';
 
 export default function account() {
   const authContext = useAuthContext();
+
+  if (authContext.isLoading) {
+    return null;
+  }
+
   const user = authContext.user;
   const [isEditing, setEditing] = useState(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -44,8 +49,26 @@ export default function account() {
       avatarUrl,
     };
 
-    authContext.update(user).then(() => {
+    authContext.update(user).then((user) => {
+      setEditing(false);
       setIsLoading(false);
+
+      if (!user) {
+        return;
+      }
+      const emailField = event.currentTarget?.email;
+      const usernameField = event.currentTarget?.username;
+      const avatarUrlField = event.currentTarget?.avatarUrl;
+
+      if (emailField) {
+        emailField.value = user.email;
+      }
+      if (usernameField) {
+        usernameField.value = user.userName;
+      }
+      if (avatarUrlField) {
+        avatarUrlField.value = user.avatarUrl;
+      }
     });
   };
 
