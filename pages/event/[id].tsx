@@ -10,10 +10,6 @@ type Data = {
 };
 
 const Event: NextPage<Data> = (props) => {
-  const router = useRouter();
-  const { id } = router.query;
-  console.log(id);
-
   return (
     <div>
       <EventView event={props.event}></EventView>
