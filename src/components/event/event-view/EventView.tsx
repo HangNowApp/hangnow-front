@@ -41,7 +41,7 @@ export function EventView({ event }: { event: AppEvent }) {
           margin: 'left',
         }}
       >
-        <Avatar alt="" src={event.imageUrl} />
+        <Avatar alt="" src={event.owner?.avatarUrl} />
         <Box>
           <Typography variant="body2">{event.owner?.userName}</Typography>
           <Link href="/profile">view profile</Link>
