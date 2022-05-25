@@ -2,13 +2,7 @@ import { Avatar, Box, Button, Link, Typography } from '@mui/material';
 import Avatars from '~/components/avatars/Avatars';
 import { AppEvent } from '~/types/event';
 
-export function EventView({
-  name,
-  imageUrl,
-  description,
-  startDate,
-  owner,
-}: AppEvent) {
+export function EventView({ event }: { event: AppEvent }) {
   return (
     <Box
       sx={{
@@ -18,7 +12,7 @@ export function EventView({
         margin: 'auto',
       }}
     >
-      <Typography variant="h4">{name}</Typography>
+      <Typography variant="h4">{event.name}</Typography>
 
       <Box
         sx={{
@@ -28,7 +22,7 @@ export function EventView({
         }}
       >
         <Typography variant="caption">
-          {startDate?.toLocaleString('en-US', {})}
+          {event.startDate?.toLocaleString('en-US', {})}
         </Typography>
         <Avatars />
       </Box>
@@ -36,7 +30,7 @@ export function EventView({
       <Typography variant="subtitle2">About Event</Typography>
 
       <Typography variant="body2" fontStyle="italic">
-        {description}
+        {event.description}
       </Typography>
 
       <Box
@@ -47,9 +41,9 @@ export function EventView({
           margin: 'left',
         }}
       >
-        <Avatar alt="" src={imageUrl} />
+        <Avatar alt="" src={event.imageUrl} />
         <Box>
-          <Typography variant="body2">{owner?.userName}</Typography>
+          <Typography variant="body2">{event.owner?.userName}</Typography>
           <Link href="/profile">view profile</Link>
         </Box>
       </Box>
