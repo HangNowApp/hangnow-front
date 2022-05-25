@@ -1,25 +1,14 @@
 import { Avatar, Box, Button, Link, Typography } from '@mui/material';
-import React from 'react';
 import Avatars from '~/components/avatars/Avatars';
-import TagFilter from '~/components/TagFilter/TagFilter';
-
-type EventViewProps = {
-  title: string;
-  description: string;
-  username: string;
-  avatarUrl: string;
-  time: string;
-  tag: string;
-};
+import { AppEvent } from '~/types/event';
 
 export function EventView({
-  title,
+  name,
+  imageUrl,
   description,
-  username,
-  avatarUrl,
-  time,
-  tag,
-}: EventViewProps) {
+  startDate,
+  owner,
+}: AppEvent) {
   return (
     <Box
       sx={{
@@ -29,17 +18,7 @@ export function EventView({
         margin: 'auto',
       }}
     >
-      <Typography variant="h4">{title}</Typography>
-
-      <Box sx={{ direction: 'row', gap: 1 }}>
-        <TagFilter
-          tags={[
-            { id: 0, name: 'Financens' },
-            { id: 1, name: 'Oui' },
-            { id: 2, name: 'Non' },
-          ]}
-        />
-      </Box>
+      <Typography variant="h4">{name}</Typography>
 
       <Box
         sx={{
@@ -48,7 +27,9 @@ export function EventView({
           justifyContent: 'space-between',
         }}
       >
-        <Typography variant="caption">{time}</Typography>
+        <Typography variant="caption">
+          {startDate?.toLocaleString('en-US', {})}
+        </Typography>
         <Avatars />
       </Box>
 
@@ -66,9 +47,9 @@ export function EventView({
           margin: 'left',
         }}
       >
-        <Avatar alt="" src={avatarUrl} />
+        <Avatar alt="" src={imageUrl} />
         <Box>
-          <Typography variant="body2">{username}</Typography>
+          <Typography variant="body2">{owner?.userName}</Typography>
           <Link href="/profile">view profile</Link>
         </Box>
       </Box>

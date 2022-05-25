@@ -6,17 +6,27 @@ import {
   CardMedia,
   Typography,
 } from '@mui/material';
+import { useRouter } from 'next/router';
 import React from 'react';
 import Avatars from '~/components/avatars/Avatars';
 import TagChip from '~/components/TagFilter/TagChip';
 import { AppEvent } from '~/types/event';
 
-export function MeetEventCard({ imageUrl, name, startDate, tags }: AppEvent) {
+export function MeetEventCard({
+  imageUrl,
+  name,
+  startDate,
+  tags,
+  id,
+}: AppEvent) {
+  const router = useRouter();
+
   return (
     <Card
       sx={{ borderRadius: 4, boxShadow: '0px 0px 10px 5px #00000020', w: 1 }}
     >
       <CardActionArea
+        onClick={() => router.push(`/event/${id}`)}
         sx={{
           height: 1,
           display: 'flex',
