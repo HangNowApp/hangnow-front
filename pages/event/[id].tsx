@@ -1,5 +1,4 @@
 import { NextPage, NextPageContext } from 'next';
-import { useRouter } from 'next/router';
 import React from 'react';
 import { clientJson } from '~/client/client';
 import { EventView } from '~/components/event/event-view';
