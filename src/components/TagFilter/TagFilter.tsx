@@ -44,6 +44,7 @@ export default function TagFilter({
         {tags.length > 0 &&
           tags.map((tag) => (
             <TagChip
+              key={tag.id}
               onClick={() => {
                 onTagClick(tag.id);
               }}

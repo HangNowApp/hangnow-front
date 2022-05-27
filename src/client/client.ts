@@ -75,18 +75,10 @@ export async function client(
   });
 }
 
-export const clientJson = <T>(
-  endpoint: string,
-  config: config = {}
-): Promise<T> =>
-  client(endpoint, {
-    ...config,
-  }).then((r) => r.json());
+export type ClientParameters = Parameters<typeof client>;
 
-export const clientText = (
-  endpoint: string,
-  config: config = {}
-): Promise<string> =>
-  client(endpoint, {
-    ...config,
-  }).then((r) => r.text());
+export const clientJson = <T>(...params: ClientParameters): Promise<T> =>
+  client(...params).then((r) => r.json());
+
+export const clientText = (...params: ClientParameters): Promise<string> =>
+  client(...params).then((r) => r.text());

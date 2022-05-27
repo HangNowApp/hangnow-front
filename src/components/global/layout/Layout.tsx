@@ -15,7 +15,7 @@ export default function Layout({ children }: PropsWithChildren<{}>) {
       maxWidth="sm"
       sx={{ height: 1, display: 'flex', flexDirection: 'column', gap: 2, p: 1 }}
     >
-      <Box my={1}>
+      <Box>
         {isNotLogin && isNotRegister ? (
           <AppNavbar />
         ) : (
@@ -27,7 +27,7 @@ export default function Layout({ children }: PropsWithChildren<{}>) {
         )}
       </Box>
 
-      <Box sx={{ flex: 1 }}>{children}</Box>
+      <Box sx={{ flex: 1, mt: 6 }}>{children}</Box>
 
       {isNotLogin && isNotRegister && (
         <Box

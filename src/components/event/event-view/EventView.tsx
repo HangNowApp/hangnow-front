@@ -1,25 +1,8 @@
 import { Avatar, Box, Button, Link, Typography } from '@mui/material';
-import React from 'react';
 import Avatars from '~/components/avatars/Avatars';
-import TagFilter from '~/components/TagFilter/TagFilter';
+import { AppEvent } from '~/types/event';
 
-type EventViewProps = {
-  title: string;
-  description: string;
-  username: string;
-  avatarUrl: string;
-  time: string;
-  tag: string;
-};
-
-export function EventView({
-  title,
-  description,
-  username,
-  avatarUrl,
-  time,
-  tag,
-}: EventViewProps) {
+export function EventView({ event }: { event: AppEvent }) {
   return (
     <Box
       sx={{
@@ -29,17 +12,7 @@ export function EventView({
         margin: 'auto',
       }}
     >
-      <Typography variant="h4">{title}</Typography>
-
-      <Box sx={{ direction: 'row', gap: 1 }}>
-        <TagFilter
-          tags={[
-            { id: 0, name: 'Financens' },
-            { id: 1, name: 'Oui' },
-            { id: 2, name: 'Non' },
-          ]}
-        />
-      </Box>
+      <Typography variant="h4">{event.name}</Typography>
 
       <Box
         sx={{
@@ -48,14 +21,16 @@ export function EventView({
           justifyContent: 'space-between',
         }}
       >
-        <Typography variant="caption">{time}</Typography>
+        <Typography variant="caption">
+          {event.startDate?.toLocaleString('en-US', {})}
+        </Typography>
         <Avatars />
       </Box>
 
       <Typography variant="subtitle2">About Event</Typography>
 
       <Typography variant="body2" fontStyle="italic">
-        {description}
+        {event.description}
       </Typography>
 
       <Box
@@ -66,9 +41,9 @@ export function EventView({
           margin: 'left',
         }}
       >
-        <Avatar alt="" src={avatarUrl} />
+        <Avatar alt="" src={event.owner?.avatarUrl} />
         <Box>
-          <Typography variant="body2">{username}</Typography>
+          <Typography variant="body2">{event.owner?.userName}</Typography>
           <Link href="/profile">view profile</Link>
         </Box>
       </Box>

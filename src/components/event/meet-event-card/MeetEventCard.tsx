@@ -6,11 +6,11 @@ import {
   CardMedia,
   Typography,
 } from '@mui/material';
+import { useRouter } from 'next/router';
 import React from 'react';
 import Avatars from '~/components/avatars/Avatars';
 import TagChip from '~/components/TagFilter/TagChip';
 import { AppEvent } from '~/types/event';
-import { tag } from '~/types/tag';
 
 export function MeetEventCard({
   imageUrl,
@@ -19,10 +19,16 @@ export function MeetEventCard({
   tags,
   users,
   location,
+  id,
 }: AppEvent) {
+  const router = useRouter();
+
   return (
-    <Card sx={{ borderRadius: 4, boxShadow: '0px 0px 10px 5px #00000020' }}>
+    <Card
+      sx={{ borderRadius: 4, boxShadow: '0px 0px 10px 5px #00000020', w: 1 }}
+    >
       <CardActionArea
+        onClick={() => router.push(`/event/${id}`)}
         sx={{
           height: 1,
           display: 'flex',
@@ -54,7 +60,9 @@ export function MeetEventCard({
           {tags?.length ? (
             <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1, mt: 1 }}>
               {tags?.map((tag) => {
-                return <TagChip name={tag.name} selected={false} />;
+                return (
+                  <TagChip name={tag.name} key={tag.id} selected={false} />
+                );
               })}
             </Box>
           ) : null}

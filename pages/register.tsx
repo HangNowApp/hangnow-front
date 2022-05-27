@@ -1,5 +1,5 @@
 import { Key, MailOutlined, PersonOutline } from '@mui/icons-material';
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button, Link } from '@mui/material';
 import { useSnackbar } from 'notistack';
 import React from 'react';
 import AppInput from '~/components/global/AppInput';
@@ -81,6 +81,9 @@ export default function Register() {
           <Button type="submit" variant="contained" size="small">
             Sign Up
           </Button>
+          <Box display="flex" justifyContent="center" gap={1} fontSize="14px">
+            Already have an account? <Link href="/login">Log in here</Link>
+          </Box>
         </Box>
       </Box>
     </Box>
