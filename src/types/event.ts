@@ -10,7 +10,7 @@ export type AppEvent = {
   startDate?: Date;
   endDate?: Date;
   owner?: User;
-  participants?: User[];
-  tags?: Tag[];
+  users?: User[];
+  tags?: tag[];
   createdAt?: Date;
 };

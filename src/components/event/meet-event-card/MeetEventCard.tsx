@@ -17,6 +17,8 @@ export function MeetEventCard({
   name,
   startDate,
   tags,
+  users,
+  location,
   id,
 }: AppEvent) {
   const router = useRouter();
@@ -48,14 +50,14 @@ export function MeetEventCard({
             }}
           >
             <Typography variant="body2" align="left">
-              {startDate?.toLocaleString('en-US', {})}
+              {location}
             </Typography>
             <Box>
-              <Avatars />
+              <Avatars users={users} />
             </Box>
           </Box>
 
-          {tags?.length && (
+          {tags?.length ? (
             <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1, mt: 1 }}>
               {tags?.map((tag) => {
                 return (
@@ -63,7 +65,7 @@ export function MeetEventCard({
                 );
               })}
             </Box>
-          )}
+          ) : null}
         </CardContent>
       </CardActionArea>
     </Card>
