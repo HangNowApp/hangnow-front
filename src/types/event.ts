@@ -11,6 +11,6 @@ export type AppEvent = {
   endDate?: Date;
   owner?: User;
   users?: User[];
-  tags?: tag[];
+  tags?: Tag[];
   createdAt?: Date;
 };

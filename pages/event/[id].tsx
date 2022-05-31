@@ -20,7 +20,7 @@ export async function getServerSideProps(
   context: NextPageContext
 ): Promise<{ props: Data }> {
   const { id } = context.query;
-  const event = (await clientJson(`event/${id}`)) as AppEvent;
+  const event = await clientJson<AppEvent>(`event/${id}`);
 
   return { props: { event } };
 }
