@@ -33,7 +33,7 @@ export default function AppNavbar() {
         </Box>
       </Link>
       {authContext.isLoggedIn && (
-        <AppLink href="/account">@{authContext.user?.userName}</AppLink>
+        <AppLink href="/user">@{authContext.user?.userName}</AppLink>
       )}
       {isNotLogin && (
         <Link href={authContext.isLoggedIn ? '/logout' : '/login'}>

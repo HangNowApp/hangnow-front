@@ -37,7 +37,7 @@ export default function AppFooter() {
           sx={{ flex: 1 }}
           icon={<AccountCircleOutlined />}
           text="Account"
-          href="/account"
+          href="/user"
         />
       )}
     </Box>
