@@ -15,7 +15,6 @@ import { AppEvent } from '~/types/event';
 export function MeetEventCard({
   imageUrl,
   name,
-  startDate,
   tags,
   users,
   location,

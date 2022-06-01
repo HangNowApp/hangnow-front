@@ -1,8 +1,11 @@
 import { Avatar, Box, Button, Link, Typography } from '@mui/material';
+import { useRouter } from 'next/router';
 import Avatars from '~/components/avatars/Avatars';
 import { AppEvent } from '~/types/event';
 
 export function EventView({ event }: { event: AppEvent }) {
+  const router = useRouter();
+
   return (
     <Box
       sx={{
@@ -44,7 +47,9 @@ export function EventView({ event }: { event: AppEvent }) {
         <Avatar alt="" src={event.owner?.avatarUrl} />
         <Box>
           <Typography variant="body2">{event.owner?.userName}</Typography>
-          <Link href="/profile">view profile</Link>
+          <Link onClick={() => router.push(`/user/${event.owner?.id}`)}>
+            view profile
+          </Link>
         </Box>
       </Box>
 
