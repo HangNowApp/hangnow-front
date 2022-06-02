@@ -7,11 +7,20 @@ import {
   Typography,
 } from '@mui/material';
 import { NextPage } from 'next';
+import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { clientJson } from '~/client/client';
+import { AppEvent } from '~/types/event';
 import { Tag } from '~/types/tag';
 
+type Data = {
+  tags: Tag[];
+};
+
 const Create: NextPage<Data> = ({ tags: allTags }) => {
+  const router = useRouter();
+
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [tags, setTags] = React.useState<Tag[]>([]);
 
   const handleChangeTags = (event: SelectChangeEvent<unknown>) => {
@@ -19,14 +28,38 @@ const Create: NextPage<Data> = ({ tags: allTags }) => {
     setTags(Array.isArray(value) ? value : [value]);
   };
 
-  const handleSubmit: React.FormEventHandler<HTMLFormElement> = (event) => {
-    event.preventDefault();
-    console.log('test');
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const form = e.currentTarget;
+    const eventName = form.eventName.value;
+    const description = form.description.value;
+    const location = form.location.value;
+    const imageUrl = form.imageUrl.value;
+    const selectedTags = tags;
+
+    setIsLoading(true);
+    clientJson<AppEvent>('event', {
+      data: {
+        eventName,
+        description,
+        selectedTags,
+        imageUrl,
+        location,
+      },
+    })
+      .then(() => {
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        setIsLoading(false);
+        return null;
+      });
   };
 
   return (
     <Box
-      onSubmit={handleSubmit}
+      onSubmit={onSubmit}
       component={'form'}
       sx={{
         display: 'flex',
@@ -37,10 +70,16 @@ const Create: NextPage<Data> = ({ tags: allTags }) => {
     >
       <Typography variant="h4">Event Details</Typography>
 
-      <TextField label="Event Name" variant="outlined" />
+      <TextField
+        label="Event Name"
+        id="eventName"
+        placeholder="ex: Golf with friends"
+        variant="outlined"
+      />
 
       <TextField
         label="About event"
+        id="description"
         multiline
         rows={4}
         defaultValue="Some more informations"
@@ -48,7 +87,17 @@ const Create: NextPage<Data> = ({ tags: allTags }) => {
       />
 
       <TextField
+        label="Location"
+        id="location"
+        placeholder="ex: Lausanne-Flon"
+        variant="outlined"
+      />
+
+      <TextField id="imageUrl" label="Image URL" placeholder="https://...." />
+
+      <TextField
         select
+        id="tags"
         label="Tags"
         value={tags}
         SelectProps={{
@@ -66,7 +115,11 @@ const Create: NextPage<Data> = ({ tags: allTags }) => {
         ))}
       </TextField>
 
-      <Button type="submit" variant="contained">
+      <Button
+        onClick={() => router.push(`/`)}
+        type="submit"
+        variant="contained"
+      >
         Create
       </Button>
     </Box>
@@ -74,10 +127,6 @@ const Create: NextPage<Data> = ({ tags: allTags }) => {
 };
 
 export default Create;
-
-type Data = {
-  tags: Tag[];
-};
 
 export async function getServerSideProps(): Promise<{ props: Data }> {
   // Fetch data from external API
