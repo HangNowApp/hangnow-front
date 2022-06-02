@@ -1,27 +1,22 @@
-import { FilledInput, InputAdornment } from '@mui/material';
+import { FilledInput, FilledInputProps, InputAdornment } from '@mui/material';
 
-type AppInputProps = {
-  id?: string;
-  type?: string;
+type AppInputProps = FilledInputProps & {
   placeholder?: string;
-  icon: React.ReactNode;
+  icon?: React.ReactNode;
 };
 
-export default function AppInput({
-  id,
-  type,
-  placeholder,
-  icon,
-}: AppInputProps) {
+export default function AppInput({ icon, ...rest }: AppInputProps) {
   return (
     <FilledInput
-      id={id}
-      type={type}
+      {...rest}
       hiddenLabel={true}
-      placeholder={placeholder}
       size="small"
       margin="dense"
-      startAdornment={<InputAdornment position="start">{icon}</InputAdornment>}
+      startAdornment={
+        icon ? (
+          <InputAdornment position="start">{icon}</InputAdornment>
+        ) : undefined
+      }
     />
   );
 }

@@ -1,7 +1,9 @@
 import {
+  Alert,
   Avatar,
   Box,
   Button,
+  CircularProgress,
   Link as MuiLink,
   Typography,
 } from '@mui/material';
@@ -23,6 +25,8 @@ export function EventView(props: { event: AppEvent }) {
 
   const currentUserIsInEvent =
     event.users?.some((u) => u.id === authContext.user?.id) ?? false;
+
+  const isAdminOfEvent = event.owner?.id === authContext.user?.id;
 
   const handleJoinOrLeave = () => {
     if (currentUserIsInEvent) {
@@ -48,6 +52,10 @@ export function EventView(props: { event: AppEvent }) {
     }
   };
 
+  if (authContext.isLoading) {
+    return <CircularProgress />;
+  }
+
   return (
     <Box
       sx={{
@@ -71,9 +79,9 @@ export function EventView(props: { event: AppEvent }) {
 
         {event.tags?.length ? (
           <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1, mt: 1 }}>
-            {event.tags?.map((tag) => {
-              return <TagChip name={tag.name} key={tag.id} selected={false} />;
-            })}
+            {event.tags.map((tag) => (
+              <TagChip name={tag.name} key={tag.id} selected={false} />
+            ))}
           </Box>
         ) : null}
       </Box>
@@ -90,13 +98,6 @@ export function EventView(props: { event: AppEvent }) {
           <LocationOnOutlinedIcon fontSize="small" />
           {event.location}
         </Typography>
-
-
-        {currentUserIsInEvent ? (
-          <Typography variant="body1" color="green">
-            You are part of this event.
-          </Typography>
-        ) : null}
 
         <Avatars users={event.users} />
       </Box>
@@ -125,11 +126,18 @@ export function EventView(props: { event: AppEvent }) {
         </Box>
       </Box>
 
-      <Button variant="contained" onClick={handleJoinOrLeave}>
-        {currentUserIsInEvent ? 'Leave' : 'Join'} event
-      </Button>
+      {isAdminOfEvent || !authContext.user ? null : (
+        <Button variant="contained" onClick={handleJoinOrLeave}>
+          {currentUserIsInEvent ? 'Leave' : 'Join'} event
+        </Button>
+      )}
+      {!authContext.user ? <Alert severity="error">Login to join</Alert> : null}
 
-      <DeleteButton eventId={event.id} />
+      {currentUserIsInEvent ? (
+        <Alert severity="success">You are part of this event.</Alert>
+      ) : null}
+
+      {isAdminOfEvent ? <DeleteButton eventId={event.id} /> : null}
     </Box>
   );
 }

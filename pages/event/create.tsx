@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  InputAdornment,
   MenuItem,
   SelectChangeEvent,
   TextField,
@@ -8,24 +9,33 @@ import {
 } from '@mui/material';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
+import { useSnackbar } from 'notistack';
+import React from 'react';
 import { clientJson } from '~/client/client';
+import { AddTagDialog } from '~/components/global/AddTagDialog';
+import AppInput from '~/components/global/AppInput';
 import { AppEvent } from '~/types/event';
 import { Tag } from '~/types/tag';
+import TitleIcon from '@mui/icons-material/Title';
+import ShortTextOutlinedIcon from '@mui/icons-material/ShortText';
+import ImageOutlinedIcon from '@mui/icons-material/Image';
+import StyleOutlinedIcon from '@mui/icons-material/Style';
+import AddLocationOutlinedIcon from '@mui/icons-material/AddLocation';
 
 type Data = {
   tags: Tag[];
 };
 
-const Create: NextPage<Data> = ({ tags: allTags }) => {
+const Create: NextPage<Data> = ({ tags: allTagsSource }) => {
   const router = useRouter();
 
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [allTags, setAllTags] = React.useState(allTagsSource);
   const [tags, setTags] = React.useState<string[]>([]);
-  console.log(tags);
+
+  const { enqueueSnackbar } = useSnackbar();
 
   const handleChangeTags = (event: SelectChangeEvent<unknown>) => {
-    const value = event.target.value as string | string[];
+    const value = event.target.value as string[] | string;
     setTags(Array.isArray(value) ? value : [value]);
   };
 
@@ -38,7 +48,6 @@ const Create: NextPage<Data> = ({ tags: allTags }) => {
     const location = form.location.value;
     const imageUrl = form.imageUrl.value;
 
-    setIsLoading(true);
     clientJson<AppEvent>('event', {
       data: {
         name,
@@ -49,14 +58,10 @@ const Create: NextPage<Data> = ({ tags: allTags }) => {
       },
     })
       .then((event) => {
-        setIsLoading(false);
-        router.push(`/event/${event.id}`);
+        void router.push(`/event/${event.id}`);
       })
-      .catch((err) => {
-        err.json().then((res: AppEvent) => {
-          console.error('err', res);
-          setIsLoading(false);
-        });
+      .catch(() => {
+        void router.push('/');
       });
   };
 
@@ -73,54 +78,68 @@ const Create: NextPage<Data> = ({ tags: allTags }) => {
     >
       <Typography variant="h4">Event Details</Typography>
 
-      <TextField
-        label="Event Name"
-        id="eventName"
-        placeholder="ex: Golf with friends"
-        variant="outlined"
-      />
+      <AppInput placeholder="Name" id="eventName" icon={<TitleIcon />} />
 
-      <TextField
-        label="About event"
+      <AppInput
+        placeholder="About event"
         id="description"
         multiline
-        rows={4}
-        defaultValue="Some more informations"
+        icon={<ShortTextOutlinedIcon />}
         onFocus={(e) => {
           e.target.select();
         }}
       />
 
-      <TextField
-        label="Location"
+      <AppInput
+        placeholder="Location"
         id="location"
-        placeholder="ex: Lausanne-Flon"
-        variant="outlined"
+        icon={<AddLocationOutlinedIcon />}
       />
 
-      <TextField id="imageUrl" label="Image URL" placeholder="https://...." />
+      <AppInput
+        id="imageUrl"
+        placeholder="Image URL"
+        icon={<ImageOutlinedIcon />}
+      />
 
-      <TextField
-        select
-        id="tags"
-        label="Tags"
-        value={tags}
-        SelectProps={{
-          multiple: true,
-          onChange: handleChangeTags,
-          renderValue: (selected) => (
-            <>{Array.isArray(selected) ? selected.join(', ') : selected}</>
-          ),
-        }}
-      >
-        {allTags.map((tag) => (
-          <MenuItem key={tag.id} value={tag.name}>
-            {tag.name}
-          </MenuItem>
-        ))}
-      </TextField>
+      <Box sx={{ display: 'flex' }}>
+        <TextField
+          select
+          sx={{ flex: 1 }}
+          id="tags"
+          label="Tags"
+          value={tags}
+          variant="filled"
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <StyleOutlinedIcon />
+              </InputAdornment>
+            ),
+          }}
+          SelectProps={{
+            multiple: true,
+            onChange: handleChangeTags,
+            renderValue: (selected) => (
+              <>{Array.isArray(selected) ? selected.join(', ') : selected}</>
+            ),
+          }}
+        >
+          {allTags.map((tag) => (
+            <MenuItem key={tag.id} value={tag.name}>
+              {tag.name}
+            </MenuItem>
+          ))}
+        </TextField>
 
-      <Button type="submit" variant="contained">
+        <AddTagDialog
+          onSubmit={(tag) => {
+            setAllTags([...allTags, tag]);
+          }}
+        />
+      </Box>
+
+      <Button id="create-form-submit" type="submit" variant="contained">
         Create
       </Button>
     </Box>

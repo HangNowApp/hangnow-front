@@ -9,17 +9,16 @@ type Data = {
 };
 
 const Event: NextPage<Data> = (props) => (
-    <div>
-      <EventView event={props.event}></EventView>
-    </div>
-  );
+  <div>
+    <EventView event={props.event}></EventView>
+  </div>
+);
 
 export async function getServerSideProps(
   context: NextPageContext
 ): Promise<{ props: Data }> {
-  const { id } = context.query;
-  const event = await clientJson<AppEvent>(`event/${id}`);
-
+  const { eventId } = context.query;
+  const event = await clientJson<AppEvent>(`event/${eventId}`);
   return { props: { event } };
 }
 

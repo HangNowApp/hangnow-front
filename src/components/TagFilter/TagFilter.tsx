@@ -34,8 +34,8 @@ export default function TagFilter({
         width="100%"
         gap={1}
         sx={{
-          overflowY: 'auto',
-          overflowX: 'hidden',
+          overflowY: 'hidden',
+          overflowX: 'auto',
           '&::-webkit-scrollbar': {
             width: 0,
           },
