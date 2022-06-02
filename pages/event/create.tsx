@@ -21,10 +21,11 @@ const Create: NextPage<Data> = ({ tags: allTags }) => {
   const router = useRouter();
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [tags, setTags] = React.useState<Tag[]>([]);
+  const [tags, setTags] = React.useState<string[]>([]);
+  console.log(tags);
 
   const handleChangeTags = (event: SelectChangeEvent<unknown>) => {
-    const value = event.target.value as Tag | Tag[];
+    const value = event.target.value as string | string[];
     setTags(Array.isArray(value) ? value : [value]);
   };
 
@@ -44,11 +45,12 @@ const Create: NextPage<Data> = ({ tags: allTags }) => {
         description,
         location,
         imageUrl,
-        tags,
+        tags: allTags.filter((t) => tags.includes(t.name)).map((t) => t.id),
       },
     })
-      .then(() => {
+      .then((event) => {
         setIsLoading(false);
+        router.push(`/event/${event.id}`);
       })
       .catch((err) => {
         err.json().then((res: AppEvent) => {
