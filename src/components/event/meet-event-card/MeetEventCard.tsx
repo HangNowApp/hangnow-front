@@ -11,6 +11,7 @@ import React from 'react';
 import Avatars from '~/components/avatars/Avatars';
 import TagChip from '~/components/TagFilter/TagChip';
 import { AppEvent } from '~/types/event';
+import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 
 export function MeetEventCard({
   imageUrl,
@@ -35,7 +36,14 @@ export function MeetEventCard({
           flexDirection: 'column',
         }}
       >
-        <CardMedia component="img" height="140" image={imageUrl} />
+        <CardMedia
+          component="img"
+          height="140"
+          image={
+            imageUrl ??
+            'https://wordlist.languagepod101.com/wordlist/media/10412&v=medium.jpg'
+          }
+        />
         <CardContent sx={{ width: 1 }}>
           <Typography gutterBottom variant="h6" align="center">
             {name}
@@ -49,6 +57,7 @@ export function MeetEventCard({
             }}
           >
             <Typography variant="body2" align="left">
+              <LocationOnOutlinedIcon fontSize="small" />
               {location}
             </Typography>
             <Box>
