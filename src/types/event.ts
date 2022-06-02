@@ -2,7 +2,7 @@ import { User } from '~/client/types/User';
 import { Tag } from './tag';
 
 export type AppEvent = {
-  id: string;
+  id: number;
   name: string;
   description?: string;
   location?: string;

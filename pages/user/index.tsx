@@ -150,7 +150,14 @@ export default function Account() {
           {isEditing ? 'Save' : 'Edit'}
         </Button>
       </Box>
-      {events ? <MeetEventCardList cards={events} /> : null}
+      {events ? (
+        <>
+          <Typography variant="h5" sx={{ my: 4 }}>
+            My events
+          </Typography>
+          <MeetEventCardList cards={events} />
+        </>
+      ) : null}
 
       <PasswordDialog open={open} onClose={handleClose} />
     </>

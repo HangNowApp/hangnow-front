@@ -6,6 +6,7 @@ import {
   Typography,
 } from '@mui/material';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useSnackbar } from 'notistack';
 import { useState } from 'react';
 import { clientJson } from '~/client/client';
@@ -102,6 +103,40 @@ export function EventView(props: { event: AppEvent }) {
       <Button variant="contained" onClick={handleJoinOrLeave}>
         {currentUserIsInEvent ? 'Leave' : 'Join'} event
       </Button>
+
+      <DeleteButton eventId={event.id} />
     </Box>
   );
 }
+
+const DeleteButton = ({ eventId }: { eventId: number }) => {
+  const [confirmation, setConfirmation] = useState(false);
+  const router = useRouter();
+  const { enqueueSnackbar } = useSnackbar();
+
+  const onDelete = () => {
+    clientJson<AppEvent>(`event/${eventId}`, { method: 'DELETE' })
+      .then(() => {
+        void router.push('/');
+      })
+      .catch(() => {
+        enqueueSnackbar('Failed to delete event', { variant: 'error' });
+      });
+  };
+
+  return (
+    <Button
+      onClick={() => {
+        if (!confirmation) {
+          setConfirmation(true);
+        } else {
+          onDelete();
+        }
+      }}
+      variant="text"
+      color={confirmation ? 'warning' : 'primary'}
+    >
+      {confirmation ? 'Are you sure?' : 'Delete'}
+    </Button>
+  );
+};
