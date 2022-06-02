@@ -7,25 +7,62 @@ import {
   Typography,
 } from '@mui/material';
 import { NextPage } from 'next';
-import React from 'react';
+import { useRouter } from 'next/router';
+import React, { useState } from 'react';
 import { clientJson } from '~/client/client';
+import { AppEvent } from '~/types/event';
 import { Tag } from '~/types/tag';
 
+type Data = {
+  tags: Tag[];
+};
+
 const Create: NextPage<Data> = ({ tags: allTags }) => {
-  const [tags, setTags] = React.useState<Tag[]>([]);
+  const router = useRouter();
+
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [tags, setTags] = React.useState<string[]>([]);
+  console.log(tags);
 
   const handleChangeTags = (event: SelectChangeEvent<unknown>) => {
-    const value = event.target.value as Tag | Tag[];
+    const value = event.target.value as string | string[];
     setTags(Array.isArray(value) ? value : [value]);
   };
 
-  const handleSubmit: React.FormEventHandler<HTMLFormElement> = (event) => {
-    event.preventDefault();
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const form = e.currentTarget;
+    const name = form.eventName.value;
+    const description = form.description.value;
+    const location = form.location.value;
+    const imageUrl = form.imageUrl.value;
+
+    setIsLoading(true);
+    clientJson<AppEvent>('event', {
+      data: {
+        name,
+        description,
+        location,
+        imageUrl,
+        tags: allTags.filter((t) => tags.includes(t.name)).map((t) => t.id),
+      },
+    })
+      .then((event) => {
+        setIsLoading(false);
+        router.push(`/event/${event.id}`);
+      })
+      .catch((err) => {
+        err.json().then((res: AppEvent) => {
+          console.error('err', res);
+          setIsLoading(false);
+        });
+      });
   };
 
   return (
     <Box
-      onSubmit={handleSubmit}
+      onSubmit={onSubmit}
       component={'form'}
       sx={{
         display: 'flex',
@@ -36,10 +73,16 @@ const Create: NextPage<Data> = ({ tags: allTags }) => {
     >
       <Typography variant="h4">Event Details</Typography>
 
-      <TextField label="Event Name" variant="outlined" />
+      <TextField
+        label="Event Name"
+        id="eventName"
+        placeholder="ex: Golf with friends"
+        variant="outlined"
+      />
 
       <TextField
         label="About event"
+        id="description"
         multiline
         rows={4}
         defaultValue="Some more informations"
@@ -49,7 +92,17 @@ const Create: NextPage<Data> = ({ tags: allTags }) => {
       />
 
       <TextField
+        label="Location"
+        id="location"
+        placeholder="ex: Lausanne-Flon"
+        variant="outlined"
+      />
+
+      <TextField id="imageUrl" label="Image URL" placeholder="https://...." />
+
+      <TextField
         select
+        id="tags"
         label="Tags"
         value={tags}
         SelectProps={{
@@ -75,10 +128,6 @@ const Create: NextPage<Data> = ({ tags: allTags }) => {
 };
 
 export default Create;
-
-type Data = {
-  tags: Tag[];
-};
 
 export async function getServerSideProps(): Promise<{ props: Data }> {
   // Fetch data from external API

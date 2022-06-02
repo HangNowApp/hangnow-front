@@ -11,6 +11,7 @@ import React from 'react';
 import Avatars from '~/components/avatars/Avatars';
 import TagChip from '~/components/TagFilter/TagChip';
 import { AppEvent } from '~/types/event';
+import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 
 export function MeetEventCard({
   event: { imageUrl, name, tags, users, location, id },
@@ -46,6 +47,7 @@ export function MeetEventCard({
             }}
           >
             <Typography variant="body2" align="left">
+              <LocationOnOutlinedIcon fontSize="small" />
               {location}
             </Typography>
             <Box>
