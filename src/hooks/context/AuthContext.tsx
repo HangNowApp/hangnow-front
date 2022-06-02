@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { JWT } from '~/client/jwr';
 import { User } from '~/client/types/User';
 import { Nullable } from '~/client/types/utility';
@@ -16,9 +16,9 @@ type AuthContextProps = {
 const AuthContext = React.createContext<AuthContextProps>({
   isLoading: true,
   isLoggedIn: false,
-  logout: () => {},
-  login: () => {},
-  update: () => Promise.resolve(null),
+  logout: () => void 0,
+  login: () => void 0,
+  update: async () => Promise.resolve(null),
 });
 
 type AuthContextProviderProps = { children: React.ReactElement };
@@ -29,7 +29,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
 
   const isLoggedIn = Boolean(user);
 
-  const refreshUser = () => {
+  const refreshUser = useCallback(() => {
     const token = JWT.getToken();
 
     if (!token) {
@@ -42,22 +42,19 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
       .catch((err) => {
         console.error('err', err);
       });
-  };
+  }, [run]);
 
   useEffect(() => {
     refreshUser();
-  }, []);
+  }, [refreshUser]);
 
-  const update = async (user: Partial<User>) => {
-    return run<User>('auth/update', { method: 'PATCH', data: user })
+  const update = async (user: Partial<User>) =>
+    run<User>('auth/update', { method: 'PATCH', data: user })
       .then((user) => {
         setUser(user);
         return user;
       })
-      .catch((err) => {
-        return null;
-      });
-  };
+      .catch(() => null);
 
   const logout = () => {
     JWT.deleteToken();
@@ -76,9 +73,5 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
 
 export function useAuthContext() {
   const context = React.useContext(AuthContext);
-  if (!context)
-    throw new Error(
-      'useSessionContext should be used within a SessionContextProvider'
-    );
   return context;
 }

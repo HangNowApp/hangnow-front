@@ -13,7 +13,7 @@ export function useAuthForm(type: 'login' | 'register') {
     clientJson<AuthResponse>(`auth/${type}`, { data })
       .then((res) => {
         if (res.result) {
-          router.push('/');
+          void router.push('/');
           authContext.login(res.token);
         } else {
           enqueueSnackbar(res.message, { variant: 'error' });

@@ -8,13 +8,11 @@ type Data = {
   event: AppEvent;
 };
 
-const Event: NextPage<Data> = (props) => {
-  return (
+const Event: NextPage<Data> = (props) => (
     <div>
       <EventView event={props.event}></EventView>
     </div>
   );
-};
 
 export async function getServerSideProps(
   context: NextPageContext

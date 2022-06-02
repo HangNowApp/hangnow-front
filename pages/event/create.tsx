@@ -7,7 +7,7 @@ import {
   Typography,
 } from '@mui/material';
 import { NextPage } from 'next';
-import React, { useState } from 'react';
+import React from 'react';
 import { clientJson } from '~/client/client';
 import { Tag } from '~/types/tag';
 
@@ -21,7 +21,6 @@ const Create: NextPage<Data> = ({ tags: allTags }) => {
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
-    console.log('test');
   };
 
   return (
@@ -44,7 +43,9 @@ const Create: NextPage<Data> = ({ tags: allTags }) => {
         multiline
         rows={4}
         defaultValue="Some more informations"
-        onFocus={(e) => e.target.select()}
+        onFocus={(e) => {
+          e.target.select();
+        }}
       />
 
       <TextField
