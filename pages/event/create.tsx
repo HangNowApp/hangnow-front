@@ -32,28 +32,29 @@ const Create: NextPage<Data> = ({ tags: allTags }) => {
     e.preventDefault();
 
     const form = e.currentTarget;
-    const eventName = form.eventName.value;
+    const name = form.eventName.value;
     const description = form.description.value;
     const location = form.location.value;
     const imageUrl = form.imageUrl.value;
-    const selectedTags = tags;
 
     setIsLoading(true);
     clientJson<AppEvent>('event', {
       data: {
-        eventName,
+        name,
         description,
-        selectedTags,
-        imageUrl,
         location,
+        imageUrl,
+        tags,
       },
     })
       .then(() => {
         setIsLoading(false);
       })
       .catch((err) => {
-        setIsLoading(false);
-        return null;
+        err.json().then((res: AppEvent) => {
+          console.error('err', res);
+          setIsLoading(false);
+        });
       });
   };
 
@@ -115,11 +116,7 @@ const Create: NextPage<Data> = ({ tags: allTags }) => {
         ))}
       </TextField>
 
-      <Button
-        onClick={() => router.push(`/`)}
-        type="submit"
-        variant="contained"
-      >
+      <Button type="submit" variant="contained">
         Create
       </Button>
     </Box>

@@ -23,14 +23,7 @@ export function EventView({ event }: { event: AppEvent }) {
           overflow: 'hidden',
         }}
       >
-        <img
-          object-fit="cover"
-          object-position="center"
-          src={
-            event.imageUrl ??
-            'https://wordlist.languagepod101.com/wordlist/media/10412&v=medium.jpg'
-          }
-        />
+        <img object-fit="cover" object-position="center" src={event.imageUrl} />
       </Box>
 
       <Box>

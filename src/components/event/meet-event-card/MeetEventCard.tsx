@@ -36,14 +36,7 @@ export function MeetEventCard({
           flexDirection: 'column',
         }}
       >
-        <CardMedia
-          component="img"
-          height="140"
-          image={
-            imageUrl ??
-            'https://wordlist.languagepod101.com/wordlist/media/10412&v=medium.jpg'
-          }
-        />
+        <CardMedia component="img" height="140" image={imageUrl} />
         <CardContent sx={{ width: 1 }}>
           <Typography gutterBottom variant="h6" align="center">
             {name}
