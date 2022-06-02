@@ -6,7 +6,7 @@ import React, { PropsWithChildren } from 'react';
 import AppFooter from '../AppFooter/AppFooter';
 import AppNavbar from '../AppNavbar';
 
-export default function Layout({ children }: PropsWithChildren<{}>) {
+export default function Layout({ children }: PropsWithChildren<never>) {
   const router = useRouter();
   const isNotLogin = router.route !== '/login';
   const isNotRegister = router.route !== '/register';
@@ -19,7 +19,7 @@ export default function Layout({ children }: PropsWithChildren<{}>) {
         {isNotLogin && isNotRegister ? (
           <AppNavbar />
         ) : (
-          <Link href="/">
+          <Link href="/" passHref>
             <Button variant="text" size="small" href="">
               <ArrowBack /> Go back
             </Button>

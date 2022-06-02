@@ -6,20 +6,40 @@ import {
   TextFieldProps,
   Typography,
 } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { clientJson } from '~/client/client';
+import MeetEventCardList from '~/components/event/meet-event-card/MeetEventCardList';
 import { PasswordDialog } from '~/components/user/PasswordDialog';
 import { useAuthContext } from '~/hooks/context/AuthContext';
+import { AppEvent } from '~/types/event';
 
-export default function account() {
-  const authContext = useAuthContext();
+export default function Account() {
+  const { user, isLoading, update } = useAuthContext();
+  const [events, setEvents] = useState<AppEvent[]>();
+  const [isEditing, setEditing] = useState(false);
 
-  if (authContext.isLoading) {
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  useEffect(() => {
+    if (!user?.id) return;
+    clientJson<AppEvent[]>(`event/user/${user.id}`)
+      .then((events) => {
+        setEvents(events);
+      })
+      .catch(() => {
+        console.log('Failed to fetch events');
+      });
+  }, [user]);
+
+  if (isLoading) {
     return null;
   }
-
-  const user = authContext.user;
-  const [isEditing, setEditing] = useState(false);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const textFieldCommonProps: TextFieldProps = {
     disabled: !isEditing,
@@ -28,12 +48,8 @@ export default function account() {
     size: 'small',
   };
 
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (event) => {
-    event?.preventDefault();
+    event.preventDefault();
     if (!isEditing) {
       setEditing(true);
       return;
@@ -49,27 +65,30 @@ export default function account() {
       avatarUrl,
     };
 
-    authContext.update(user).then((user) => {
-      setEditing(false);
-      setIsLoading(false);
+    update(user)
+      .then((user) => {
+        setEditing(false);
 
-      if (!user) {
-        return;
-      }
-      const emailField = event.currentTarget?.email;
-      const usernameField = event.currentTarget?.username;
-      const avatarUrlField = event.currentTarget?.avatarUrl;
+        if (!user) {
+          return;
+        }
+        const emailField = event.currentTarget.email;
+        const usernameField = event.currentTarget.username;
+        const avatarUrlField = event.currentTarget.avatarUrl;
 
-      if (emailField) {
-        emailField.value = user.email;
-      }
-      if (usernameField) {
-        usernameField.value = user.userName;
-      }
-      if (avatarUrlField) {
-        avatarUrlField.value = user.avatarUrl;
-      }
-    });
+        if (emailField) {
+          emailField.value = user.email;
+        }
+        if (usernameField) {
+          usernameField.value = user.userName;
+        }
+        if (avatarUrlField) {
+          avatarUrlField.value = user.avatarUrl;
+        }
+      })
+      .catch(() => {
+        setEditing(false);
+      });
   };
 
   return (
@@ -131,6 +150,15 @@ export default function account() {
           {isEditing ? 'Save' : 'Edit'}
         </Button>
       </Box>
+      {events ? (
+        <>
+          <Typography variant="h5" sx={{ my: 4 }}>
+            My events
+          </Typography>
+          <MeetEventCardList cards={events} />
+        </>
+      ) : null}
+
       <PasswordDialog open={open} onClose={handleClose} />
     </>
   );

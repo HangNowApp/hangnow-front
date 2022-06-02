@@ -1,8 +1,7 @@
 import {
-  CalendarMonthOutlined,
-  ChatBubbleOutline,
-  MapsHomeWorkOutlined,
   AccountCircleOutlined,
+  CalendarMonthOutlined,
+  MapsHomeWorkOutlined,
 } from '@mui/icons-material';
 import { Box } from '@mui/material';
 import { useAuthContext } from '~/hooks/context/AuthContext';

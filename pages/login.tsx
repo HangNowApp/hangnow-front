@@ -6,7 +6,7 @@ import AppInput from '~/components/global/AppInput';
 import AppLogo from '~/components/global/AppLogo';
 import { useAuthForm } from '~/hooks/useAuthForm';
 
-export default function login() {
+export default function Login() {
   const { authRequest } = useAuthForm('login');
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {

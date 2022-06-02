@@ -1,12 +1,12 @@
 import { JWT } from './jwr';
 
 // get next variable named: "NEXT_API_URL"
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000/';
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3000/';
 
 type config = {
   data?: unknown;
   token?: string | null;
-  method?: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'OPTIONS' | 'PATCH';
+  method?: 'DELETE' | 'GET' | 'OPTIONS' | 'PATCH' | 'POST' | 'PUT';
   headers?: HeadersInit;
   customConfig?: RequestInit;
 };
@@ -50,7 +50,7 @@ export async function client(
   }: config = {}
 ): Promise<Response> {
   const config: RequestInit = {
-    method: method || (data ? 'POST' : 'GET'),
+    method: method ?? (data ? 'POST' : 'GET'),
     body: data ? JSON.stringify(data) : null,
     headers: {
       Authorization: token ? `Bearer ${token}` : '',
@@ -61,7 +61,7 @@ export async function client(
     ...customConfig,
   };
 
-  return fetch(`${BASE_URL}api/${endpoint}`, config).then((response) => {
+  return fetch(`${BASE_URL}api/${endpoint}`, config).then(async (response) => {
     // statusCode "401" is for unauthenticated request
     if (response.status === 401) {
       return Promise.reject({ message: 'Please re-authenticate.' });
@@ -77,8 +77,9 @@ export async function client(
 
 export type ClientParameters = Parameters<typeof client>;
 
-export const clientJson = <T>(...params: ClientParameters): Promise<T> =>
-  client(...params).then((r) => r.json());
+export const clientJson = async <T>(...params: ClientParameters): Promise<T> =>
+  client(...params).then(async (r) => r.json());
 
-export const clientText = (...params: ClientParameters): Promise<string> =>
-  client(...params).then((r) => r.text());
+export const clientText = async (
+  ...params: ClientParameters
+): Promise<string> => client(...params).then(async (r) => r.text());

@@ -21,9 +21,9 @@ export default function MeetEventCardList({ cards }: MeetEventCardListProps) {
         },
       }}
     >
-      {cards.map((card) => {
-        return <MeetEventCard {...card} id={card.id} />;
-      })}
+      {cards.map((card) => (
+        <MeetEventCard key={card.id} event={card} />
+      ))}
     </Box>
   );
 }

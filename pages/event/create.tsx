@@ -86,7 +86,9 @@ const Create: NextPage<Data> = ({ tags: allTags }) => {
         multiline
         rows={4}
         defaultValue="Some more informations"
-        onFocus={(e) => e.target.select()}
+        onFocus={(e) => {
+          e.target.select();
+        }}
       />
 
       <TextField

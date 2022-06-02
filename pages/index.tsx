@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import { Box, CircularProgress } from '@mui/material';
 import type { NextPage } from 'next';
 import { useEffect, useState } from 'react';
@@ -19,10 +20,14 @@ const Home: NextPage<Data> = (props) => {
       return;
     }
 
-    getEvents(run, selectedTagId).then((events) => {
-      setEvents(events);
-    });
-  }, [selectedTagId]);
+    getEvents(run, selectedTagId)
+      .then((events) => {
+        setEvents(events);
+      })
+      .catch(() => {
+        console.log('Failed to fetch events');
+      });
+  }, [run, selectedTagId]);
 
   return (
     <Box>
@@ -49,7 +54,7 @@ type Data = {
   events: AppEvent[];
 };
 
-const getEvents = (func: typeof clientJson, tagId?: number) => {
+const getEvents = async (func: typeof clientJson, tagId?: number) => {
   let url = 'event';
 
   if (tagId) {
