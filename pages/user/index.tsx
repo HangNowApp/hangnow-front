@@ -6,6 +6,7 @@ import {
   TextFieldProps,
   Typography,
 } from '@mui/material';
+import Link from 'next/link';
 import React, { useState } from 'react';
 import { PasswordDialog } from '~/components/user/PasswordDialog';
 import { useAuthContext } from '~/hooks/context/AuthContext';
@@ -130,6 +131,11 @@ export default function account() {
         <Button size="small" type="submit" variant="contained">
           {isEditing ? 'Save' : 'Edit'}
         </Button>
+        <Link href="/premium">
+          <Button size="small" variant="contained" color="secondary">
+            Get Premium !
+          </Button>
+        </Link>
       </Box>
       <PasswordDialog open={open} onClose={handleClose} />
     </>
