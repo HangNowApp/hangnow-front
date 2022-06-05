@@ -32,8 +32,6 @@ const Create: NextPage<Data> = ({ tags: allTagsSource }) => {
   const [allTags, setAllTags] = React.useState(allTagsSource);
   const [tags, setTags] = React.useState<string[]>([]);
 
-  const { enqueueSnackbar } = useSnackbar();
-
   const handleChangeTags = (event: SelectChangeEvent<unknown>) => {
     const value = event.target.value as string[] | string;
     setTags(Array.isArray(value) ? value : [value]);
@@ -53,7 +51,10 @@ const Create: NextPage<Data> = ({ tags: allTagsSource }) => {
         name,
         description,
         location,
-        imageUrl,
+        imageUrl:
+          imageUrl != ''
+            ? imageUrl
+            : 'https://cdn.ponly.com/wp-content/uploads/200.-Fun-Things-to-do-with-your-friends-1-scaled.jpg',
         tags: allTags.filter((t) => tags.includes(t.name)).map((t) => t.id),
       },
     })
