@@ -1,34 +1,58 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# hangnow-front
 
-## Getting Started
+# Install ⚙
 
-First, run the development server:
+### Back-end
+[Repository back-end](https://github.com/HangNowApp/hangnow-back) 
+
+### Front-end
+
+Installer :
+```bash
+npm install
+# or
+yarn install
+```
+
+Lancer le front :
 
 ```bash
 npm run dev
 # or
 yarn dev
 ```
+⚠ Lancer le back-end également.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+# Choix techniques 🔧
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+### Back-end :
+[Repository back-end](https://github.com/HangNowApp/hangnow-back) 
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
 
-## Learn More
+### Font-end :
+Choix de React car un projet de groupe avait déjà été réalisé avec cette techno et qu'elle permettait l'utilisation de MaterialUI
 
-To learn more about Next.js, take a look at the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# Répartition 👥
+Les tâches ont été répartie de sorte à ce que l'avancement du projet se fasse aussi bien côté back que front.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
+### Melvyn
+- Back -> Grande majorité (sécurité, models, controllers, dto)
+- Front -> Quelques interventions (set up, composants, intégrations)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Alex
+- Back -> Quelques interventions (controllers)
+- Front -> Interventions (composants, intégrations, pages)
+### Ana
+- Back -> Quelques interventions (model, légers fix)
+- Front -> Principalement sur le front (composants, intégrations, pages)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+# Project 👋
+Application de rencontre instantanée dans laquelle un user peut créer un ou plusieurs évenèments qu'il va host et auxquels d'autres user pourront se joindre, ces évènements vont contenir des tags permettant d'identifier leur type
+
+Un utilisateur de base est limité à 2 évènements à la fois et il peut upgrade pour être premium et pouvoir créer plus de 2 events
+
+Les fonctions de base de l'application sont : création de compte, connexion, création/suppression d'évènements, modification du profil utilisateur, passage à un compte premium, création de tags, voir le profil d'un autre user.
