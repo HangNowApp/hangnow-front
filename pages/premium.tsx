@@ -1,14 +1,21 @@
 import { Box, Button, Typography } from '@mui/material';
+import { useRouter } from 'next/router';
 import React from 'react';
 import { client } from '~/client/client';
 import { useAuthContext } from '~/hooks/context/AuthContext';
 
-export default function premium() {
+export default function Premium() {
   const authContext = useAuthContext();
+  const router = useRouter();
+
   const buyPremium = () => {
-    void client(`User/premium/${authContext.user?.id}`, { method: 'PUT' });
-    window.location.reload();
+    void client('auth/me/buy_premium', { method: 'POST' }).then(() => {
+      authContext.refreshUser();
+      void router.push('/');
+    });
   };
+
+  const isPremium = authContext.user?.roles?.includes('PremiumUser');
 
   return (
     <Box
@@ -36,7 +43,7 @@ export default function premium() {
           <li>Get bros and hoes</li>
         </ul>
       </Typography>
-      {authContext.user?.isPremium ? (
+      {isPremium ? (
         <>
           <Typography variant="subtitle2" color="red">
             You already are subscribed !

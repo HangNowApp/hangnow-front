@@ -4,6 +4,6 @@ export type User = {
   normalizedUsername: string;
   email: string;
   phoneNumber: string;
-  isPremium: boolean;
   avatarUrl: string;
+  roles?: string[];
 };

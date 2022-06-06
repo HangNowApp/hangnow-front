@@ -12,6 +12,8 @@ export default function AppNavbar() {
 
   const authContext = useAuthContext();
 
+  const isPremium = authContext.user?.roles?.includes('PremiumUser');
+
   return (
     <Box
       display="flex"
@@ -33,7 +35,7 @@ export default function AppNavbar() {
           <AppLogo sx={{ cursor: 'pointer' }} />
         </Box>
       </Link>
-      {authContext.user?.isPremium && (
+      {isPremium && (
         <Box
           display="flex"
           flexDirection="column"

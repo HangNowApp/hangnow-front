@@ -92,6 +92,9 @@ export default function Account() {
       });
   };
 
+  const isPremium = user?.roles?.includes('PremiumUser');
+  const isAdmin = user?.roles?.includes('Admin');
+
   return (
     <>
       <Box
@@ -152,9 +155,16 @@ export default function Account() {
         </Button>
         <Link href="/premium">
           <Button size="small" variant="contained" color="secondary">
-            Get Premium !
+            {isPremium ? 'Premium' : 'Upgrade to Premium'}
           </Button>
         </Link>
+        {isAdmin ? (
+          <Link href="/admin/users">
+            <Button size="small" variant="contained" color="secondary">
+              Admin user
+            </Button>
+          </Link>
+        ) : null}
       </Box>
       {events ? (
         <>

@@ -11,6 +11,7 @@ type AuthContextProps = {
   logout: () => void;
   login: (token: string) => void;
   update: (user: Partial<User>) => Promise<User | null>;
+  refreshUser: () => void;
 };
 
 const AuthContext = React.createContext<AuthContextProps>({
@@ -18,6 +19,7 @@ const AuthContext = React.createContext<AuthContextProps>({
   isLoggedIn: false,
   logout: () => void 0,
   login: () => void 0,
+  refreshUser: () => void 0,
   update: async () => Promise.resolve(null),
 });
 
@@ -30,6 +32,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
   const isLoggedIn = Boolean(user);
 
   const refreshUser = useCallback(() => {
+    console.log('refreshing user');
     const token = JWT.getToken();
 
     if (!token) {
@@ -66,7 +69,15 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     refreshUser();
   };
 
-  const values = { user, isLoading, isLoggedIn, logout, login, update };
+  const values = {
+    user,
+    isLoading,
+    isLoggedIn,
+    logout,
+    login,
+    update,
+    refreshUser,
+  };
 
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;
 }
