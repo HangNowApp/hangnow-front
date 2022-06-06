@@ -11,15 +11,13 @@ import React from 'react';
 import Avatars from '~/components/avatars/Avatars';
 import TagChip from '~/components/TagFilter/TagChip';
 import { AppEvent } from '~/types/event';
+import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 
 export function MeetEventCard({
-  imageUrl,
-  name,
-  tags,
-  users,
-  location,
-  id,
-}: AppEvent) {
+  event: { imageUrl, name, tags, users, location, id },
+}: {
+  event: AppEvent;
+}) {
   const router = useRouter();
 
   return (
@@ -27,7 +25,7 @@ export function MeetEventCard({
       sx={{ borderRadius: 4, boxShadow: '0px 0px 10px 5px #00000020', w: 1 }}
     >
       <CardActionArea
-        onClick={() => router.push(`/event/${id}`)}
+        onClick={async () => router.push(`/event/${id}`)}
         sx={{
           height: 1,
           display: 'flex',
@@ -49,6 +47,7 @@ export function MeetEventCard({
             }}
           >
             <Typography variant="body2" align="left">
+              <LocationOnOutlinedIcon fontSize="small" />
               {location}
             </Typography>
             <Box>
@@ -58,11 +57,9 @@ export function MeetEventCard({
 
           {tags?.length ? (
             <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1, mt: 1 }}>
-              {tags?.map((tag) => {
-                return (
+              {tags.map((tag) => (
                   <TagChip name={tag.name} key={tag.id} selected={false} />
-                );
-              })}
+                ))}
             </Box>
           ) : null}
         </CardContent>

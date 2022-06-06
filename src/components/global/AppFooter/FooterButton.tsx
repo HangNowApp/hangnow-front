@@ -15,7 +15,7 @@ export default function FooterButton({
   sx,
 }: FooterButtonProps) {
   return (
-    <Link href={href}>
+    <Link href={href} passHref>
       <Button variant="text" sx={sx}>
         <Box
           display="flex"

@@ -1,8 +1,7 @@
 import {
-  CalendarMonthOutlined,
-  ChatBubbleOutline,
-  MapsHomeWorkOutlined,
   AccountCircleOutlined,
+  CalendarMonthOutlined,
+  MapsHomeWorkOutlined,
 } from '@mui/icons-material';
 import { Box } from '@mui/material';
 import { useAuthContext } from '~/hooks/context/AuthContext';
@@ -26,12 +25,14 @@ export default function AppFooter() {
         text="Home"
         href="/"
       />
-      <FooterButton
-        sx={{ flex: 1 }}
-        icon={<CalendarMonthOutlined />}
-        text="New Event"
-        href="/event/create"
-      />
+      {authContext.isLoggedIn && (
+        <FooterButton
+          sx={{ flex: 1 }}
+          icon={<CalendarMonthOutlined />}
+          text="New Event"
+          href="/event/create"
+        />
+      )}
       {authContext.isLoggedIn && (
         <FooterButton
           sx={{ flex: 1 }}

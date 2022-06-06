@@ -1,10 +1,10 @@
-import { Box, Chip, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import Link from 'next/link';
-import { tag } from '~/types/tag';
+import { Tag } from '~/types/tag';
 import TagChip from './TagChip';
 
 type TagFilterProps = {
-  tags: tag[];
+  tags: Tag[];
   selectedTagId?: number;
   onTagClick: (tagId: number) => void;
 };
@@ -33,8 +33,9 @@ export default function TagFilter({
         alignItems="center"
         width="100%"
         gap={1}
-        overflow="scroll"
         sx={{
+          overflowY: 'hidden',
+          overflowX: 'auto',
           '&::-webkit-scrollbar': {
             width: 0,
           },

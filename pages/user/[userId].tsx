@@ -65,7 +65,7 @@ const UserPage: NextPage<Data> = ({ user }) => {
           defaultValue={user.email}
         />
 
-        <Button onClick={() => router.back()} size="small" variant="contained">
+        <Button onClick={() => { router.back(); }} size="small" variant="contained">
           Back
         </Button>
       </Box>

@@ -1,8 +1,6 @@
 const LOCAL_STORAGE_TOKEN_KEY = 'jwt_token';
 
-const isServerSide = () => {
-  return typeof window === 'undefined';
-};
+const isServerSide = () => typeof window === 'undefined';
 
 const setToken = (token: string) => {
   if (isServerSide()) return;
@@ -16,7 +14,7 @@ const getToken = () => {
 
 const deleteToken = () => {
   if (isServerSide()) return;
-  return localStorage.removeItem(LOCAL_STORAGE_TOKEN_KEY);
+  localStorage.removeItem(LOCAL_STORAGE_TOKEN_KEY);
 };
 
 const JWT = {

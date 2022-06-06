@@ -1,15 +1,16 @@
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import {
+  Box,
   Button,
   Dialog,
-  DialogContent,
   DialogActions,
-  Box,
+  DialogContent,
+  LinearProgress,
 } from '@mui/material';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { useSnackbar } from 'notistack';
-import React, { useState } from 'react';
-import { clientJson } from '~/client/client';
+import React from 'react';
 import { AuthResponse } from '~/client/types/Auth';
+import { useLoadingClient } from '~/hooks/useLoadingClient';
 import AppInput from '../global/AppInput';
 
 type PasswordDialogProps = {
@@ -18,11 +19,11 @@ type PasswordDialogProps = {
 };
 
 export function PasswordDialog({ open, onClose }: PasswordDialogProps) {
-  const [isLoading, setIsLoading] = useState<boolean>(true);
   const { enqueueSnackbar } = useSnackbar();
+  const { isLoading, run } = useLoadingClient();
 
   const updatePassword: React.FormEventHandler<HTMLFormElement> = (event) => {
-    event?.preventDefault();
+    event.preventDefault();
     const oldpassword = event.currentTarget.oldpassword.value;
     const newpassword = event.currentTarget.newpassword.value;
 
@@ -31,8 +32,7 @@ export function PasswordDialog({ open, onClose }: PasswordDialogProps) {
       return;
     }
 
-    setIsLoading(true);
-    clientJson<AuthResponse>('auth/change_password', {
+    run<AuthResponse>('auth/change_password', {
       method: 'PATCH',
       data: {
         oldpassword,
@@ -40,23 +40,28 @@ export function PasswordDialog({ open, onClose }: PasswordDialogProps) {
       },
     })
       .then(() => {
-        setIsLoading(false);
         onClose();
       })
       .catch((err) => {
         err.json().then((res: AuthResponse) => {
           if (!res.result) {
-            console.error('err', res);
             enqueueSnackbar(res.message, { variant: 'error' });
-            setIsLoading(false);
           }
         });
       });
   };
 
   return (
-    <Dialog open={open} onClose={() => onClose()} maxWidth="sm" fullWidth>
+    <Dialog
+      open={open}
+      onClose={() => {
+        onClose();
+      }}
+      maxWidth="sm"
+      fullWidth
+    >
       <form onSubmit={updatePassword}>
+        {isLoading ? <LinearProgress /> : null}
         <DialogContent>
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
             <AppInput
@@ -75,7 +80,12 @@ export function PasswordDialog({ open, onClose }: PasswordDialogProps) {
         </DialogContent>
 
         <DialogActions>
-          <Button size="small" onClick={() => onClose()}>
+          <Button
+            size="small"
+            onClick={() => {
+              onClose();
+            }}
+          >
             Cancel
           </Button>
           <Button type="submit" size="small" variant="contained">

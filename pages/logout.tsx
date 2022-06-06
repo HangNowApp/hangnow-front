@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useRef } from 'react';
 import { useAuthContext } from '~/hooks/context/AuthContext';
 
-export default function logout() {
+export default function Logout() {
   const router = useRouter();
   const authContext = useAuthContext();
   const timeoutRef = useRef<NodeJS.Timeout>();
@@ -11,14 +11,14 @@ export default function logout() {
   useEffect(() => {
     authContext.logout();
     timeoutRef.current = setTimeout(() => {
-      router.push('/');
+      void router.push('/');
     }, 5000);
     return () => {
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
       }
     };
-  }, []);
+  }, [authContext, router]);
 
   return (
     <Box>

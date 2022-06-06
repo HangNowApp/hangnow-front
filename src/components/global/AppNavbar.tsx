@@ -1,5 +1,4 @@
-import { DiamondRounded } from '@mui/icons-material';
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useAuthContext } from '~/hooks/context/AuthContext';
@@ -28,7 +27,7 @@ export default function AppNavbar() {
       width={1}
       px={1}
     >
-      <Link href="/">
+      <Link href="/" passHref>
         <Box component="a" sx={{ mr: 'auto' }}>
           <AppLogo sx={{ cursor: 'pointer' }} />
         </Box>
@@ -49,7 +48,7 @@ export default function AppNavbar() {
         <AppLink href="/user">@{authContext.user?.userName}</AppLink>
       )}
       {isNotLogin && (
-        <Link href={authContext.isLoggedIn ? '/logout' : '/login'}>
+        <Link href={authContext.isLoggedIn ? '/logout' : '/login'} passHref>
           <Button variant="contained" size="small" href="">
             {authContext.isLoggedIn ? 'Logout' : 'Login'}
           </Button>

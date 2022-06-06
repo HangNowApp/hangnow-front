@@ -1,32 +1,74 @@
 import {
   Box,
   Button,
+  InputAdornment,
   MenuItem,
   SelectChangeEvent,
   TextField,
   Typography,
 } from '@mui/material';
 import { NextPage } from 'next';
-import React, { useState } from 'react';
+import { useRouter } from 'next/router';
+import { useSnackbar } from 'notistack';
+import React from 'react';
 import { clientJson } from '~/client/client';
+import { AddTagDialog } from '~/components/global/AddTagDialog';
+import AppInput from '~/components/global/AppInput';
+import { AppEvent } from '~/types/event';
 import { Tag } from '~/types/tag';
+import TitleIcon from '@mui/icons-material/Title';
+import ShortTextOutlinedIcon from '@mui/icons-material/ShortText';
+import ImageOutlinedIcon from '@mui/icons-material/Image';
+import StyleOutlinedIcon from '@mui/icons-material/Style';
+import AddLocationOutlinedIcon from '@mui/icons-material/AddLocation';
 
-const Create: NextPage<Data> = ({ tags: allTags }) => {
-  const [tags, setTags] = React.useState<Tag[]>([]);
+type Data = {
+  tags: Tag[];
+};
+
+const Create: NextPage<Data> = ({ tags: allTagsSource }) => {
+  const router = useRouter();
+
+  const [allTags, setAllTags] = React.useState(allTagsSource);
+  const [tags, setTags] = React.useState<string[]>([]);
 
   const handleChangeTags = (event: SelectChangeEvent<unknown>) => {
-    const value = event.target.value as Tag | Tag[];
+    const value = event.target.value as string[] | string;
     setTags(Array.isArray(value) ? value : [value]);
   };
 
-  const handleSubmit: React.FormEventHandler<HTMLFormElement> = (event) => {
-    event.preventDefault();
-    console.log('test');
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const form = e.currentTarget;
+    const name = form.eventName.value;
+    const description = form.description.value;
+    const location = form.location.value;
+    const imageUrl = form.imageUrl.value;
+
+    clientJson<AppEvent>('event', {
+      data: {
+        name,
+        description,
+        location,
+        imageUrl:
+          imageUrl != ''
+            ? imageUrl
+            : 'https://cdn.ponly.com/wp-content/uploads/200.-Fun-Things-to-do-with-your-friends-1-scaled.jpg',
+        tags: allTags.filter((t) => tags.includes(t.name)).map((t) => t.id),
+      },
+    })
+      .then((event) => {
+        void router.push(`/event/${event.id}`);
+      })
+      .catch(() => {
+        void router.push('/');
+      });
   };
 
   return (
     <Box
-      onSubmit={handleSubmit}
+      onSubmit={onSubmit}
       component={'form'}
       sx={{
         display: 'flex',
@@ -37,36 +79,68 @@ const Create: NextPage<Data> = ({ tags: allTags }) => {
     >
       <Typography variant="h4">Event Details</Typography>
 
-      <TextField label="Event Name" variant="outlined" />
+      <AppInput placeholder="Name" id="eventName" icon={<TitleIcon />} />
 
-      <TextField
-        label="About event"
+      <AppInput
+        placeholder="About event"
+        id="description"
         multiline
-        rows={4}
-        defaultValue="Some more informations"
-        onFocus={(e) => e.target.select()}
+        icon={<ShortTextOutlinedIcon />}
+        onFocus={(e) => {
+          e.target.select();
+        }}
       />
 
-      <TextField
-        select
-        label="Tags"
-        value={tags}
-        SelectProps={{
-          multiple: true,
-          onChange: handleChangeTags,
-          renderValue: (selected) => (
-            <>{Array.isArray(selected) ? selected.join(', ') : selected}</>
-          ),
-        }}
-      >
-        {allTags.map((tag) => (
-          <MenuItem key={tag.id} value={tag.name}>
-            {tag.name}
-          </MenuItem>
-        ))}
-      </TextField>
+      <AppInput
+        placeholder="Location"
+        id="location"
+        icon={<AddLocationOutlinedIcon />}
+      />
 
-      <Button type="submit" variant="contained">
+      <AppInput
+        id="imageUrl"
+        placeholder="Image URL"
+        icon={<ImageOutlinedIcon />}
+      />
+
+      <Box sx={{ display: 'flex' }}>
+        <TextField
+          select
+          sx={{ flex: 1 }}
+          id="tags"
+          label="Tags"
+          value={tags}
+          variant="filled"
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <StyleOutlinedIcon />
+              </InputAdornment>
+            ),
+          }}
+          SelectProps={{
+            multiple: true,
+            onChange: handleChangeTags,
+            renderValue: (selected) => (
+              <>{Array.isArray(selected) ? selected.join(', ') : selected}</>
+            ),
+          }}
+        >
+          {allTags.map((tag) => (
+            <MenuItem key={tag.id} value={tag.name}>
+              {tag.name}
+            </MenuItem>
+          ))}
+        </TextField>
+
+        <AddTagDialog
+          onSubmit={(tag) => {
+            setAllTags([...allTags, tag]);
+          }}
+        />
+      </Box>
+
+      <Button id="create-form-submit" type="submit" variant="contained">
         Create
       </Button>
     </Box>
@@ -74,10 +148,6 @@ const Create: NextPage<Data> = ({ tags: allTags }) => {
 };
 
 export default Create;
-
-type Data = {
-  tags: Tag[];
-};
 
 export async function getServerSideProps(): Promise<{ props: Data }> {
   // Fetch data from external API

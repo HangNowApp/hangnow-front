@@ -10,7 +10,7 @@ export default function AppLink({
   children: React.ReactNode;
 }) {
   return (
-    <Link href={href}>
+    <Link href={href} passHref>
       <Typography
         sx={{
           color: 'primary.main',
