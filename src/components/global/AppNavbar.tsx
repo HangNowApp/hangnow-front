@@ -1,4 +1,5 @@
-import { Box, Button } from '@mui/material';
+import { DiamondRounded } from '@mui/icons-material';
+import { Box, Button, Typography } from '@mui/material';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useAuthContext } from '~/hooks/context/AuthContext';
@@ -32,6 +33,18 @@ export default function AppNavbar() {
           <AppLogo sx={{ cursor: 'pointer' }} />
         </Box>
       </Link>
+      {authContext.user?.isPremium && (
+        <Box
+          display="flex"
+          flexDirection="column"
+          color="primary.main"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <DiamondRounded />
+          <Typography variant="caption">PREMIUM</Typography>
+        </Box>
+      )}
       {authContext.isLoggedIn && (
         <AppLink href="/user">@{authContext.user?.userName}</AppLink>
       )}

@@ -6,6 +6,7 @@ import {
   TextFieldProps,
   Typography,
 } from '@mui/material';
+import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import { clientJson } from '~/client/client';
 import MeetEventCardList from '~/components/event/meet-event-card/MeetEventCardList';
@@ -149,6 +150,11 @@ export default function Account() {
         <Button size="small" type="submit" variant="contained">
           {isEditing ? 'Save' : 'Edit'}
         </Button>
+        <Link href="/premium">
+          <Button size="small" variant="contained" color="secondary">
+            Get Premium !
+          </Button>
+        </Link>
       </Box>
       {events ? (
         <>
