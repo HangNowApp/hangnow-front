@@ -6,7 +6,7 @@ import { useAuthContext } from '~/hooks/context/AuthContext';
 export default function premium() {
   const authContext = useAuthContext();
   const buyPremium = () => {
-    client(`User/premium/${authContext.user?.id}`, { method: 'PUT' });
+    void client(`User/premium/${authContext.user?.id}`, { method: 'PUT' });
     window.location.reload();
   };
 
